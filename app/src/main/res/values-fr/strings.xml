@@ -111,4 +111,5 @@
     <string name="upd_notif_open">Touchez pour ouvrir l’application et l’installer.</string>
     <string name="set_auto_update">Installer les mises à jour automatiquement</string>
     <string name="set_auto_update_hint">Quand le nœud tourne : télécharge, vérifie la signature, arrête le nœud, installe et le redémarre. Android peut demander une confirmation. Jamais sur données mobiles sauf autorisation ci-dessus.</string>
+    <string name="header_subtitle">Full node Monero</string>
 </resources>

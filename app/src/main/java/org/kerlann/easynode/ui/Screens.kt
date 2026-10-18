@@ -10,7 +10,21 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.text.format.Formatter
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -113,14 +127,7 @@ fun EasyNodeApp() {
         stringResource(R.string.tab_info) to Icons.Filled.Info,
     )
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text("▌EASYNODEDROID▐", color = XmrOrange, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background),
-            )
-        },
+        topBar = { AppHeader() },
         bottomBar = {
             NavigationBar {
                 tabs.forEachIndexed { i, (label, icon) ->
@@ -141,6 +148,82 @@ fun EasyNodeApp() {
                 2 -> LogScreen()
                 else -> InfoScreen()
             }
+        }
+    }
+}
+
+// ── Bandeau titre (« bandeau carte ») ─────────────────────────────────────────
+
+@Composable
+private fun AppHeader() {
+    val shape = RoundedCornerShape(16.dp)
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding()
+            .padding(horizontal = 14.dp, vertical = 10.dp)
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .clip(shape)
+                .background(
+                    Brush.linearGradient(
+                        0f to Color(0xFF2A1A10),
+                        0.6f to Color(0xFF1C1C1C),
+                        start = Offset.Zero,
+                        end = Offset.Infinite,
+                    )
+                )
+                .border(1.dp, Color(0xFF3A2A1F), shape)
+                // liseré orange à gauche
+                .drawBehind { drawRect(XmrOrange, size = Size(4.dp.toPx(), size.height)) }
+                .padding(start = 16.dp, end = 12.dp, top = 10.dp, bottom = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(
+                Modifier.size(46.dp).clip(RoundedCornerShape(13.dp)).background(Color(0xFF1E1E1E)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.ic_launcher_foreground),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    buildAnnotatedString {
+                        append("Easynode")
+                        withStyle(SpanStyle(color = XmrOrange)) { append("Droid") }
+                    },
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    stringResource(R.string.header_subtitle),
+                    fontSize = 12.sp,
+                    color = Color(0xFFA0A0A0),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+            Spacer(Modifier.width(8.dp))
+            Text(
+                "v${BuildConfig.MONERO_VERSION}",
+                fontFamily = FontFamily.Monospace,
+                fontSize = 11.sp,
+                color = XmrOrange,
+                maxLines = 1,
+                modifier = Modifier
+                    .border(1.dp, XmrOrange, RoundedCornerShape(10.dp))
+                    .padding(horizontal = 7.dp, vertical = 3.dp),
+            )
         }
     }
 }
