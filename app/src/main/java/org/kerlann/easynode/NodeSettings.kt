@@ -4,7 +4,6 @@ import android.content.Context
 
 /** Équivalent de bitmonero.conf : réglages choisis par l'utilisateur. */
 data class NodeSettings(
-    val pruned: Boolean = true,
     val storageIndex: Int = 0,
     val useBanList: Boolean = true,
     val rpcLan: Boolean = false,
@@ -19,9 +18,9 @@ data class NodeSettings(
     val rpcCredentials: Pair<String, String>?
         get() = if (rpcLogin && rpcUser.isNotBlank() && rpcPassword.isNotEmpty()) rpcUser to rpcPassword else null
 
-    /** Espace disque approximatif requis par type de blockchain. */
+    /** Espace disque approximatif requis (blockchain toujours élaguée). */
     val requiredBytes: Long
-        get() = if (pruned) 95L * 1_000_000_000 else 230L * 1_000_000_000
+        get() = 95L * 1_000_000_000
 }
 
 object SettingsStore {
@@ -31,7 +30,6 @@ object SettingsStore {
         val p = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         val d = NodeSettings()
         return NodeSettings(
-            pruned = p.getBoolean("pruned", d.pruned),
             storageIndex = p.getInt("storageIndex", d.storageIndex),
             useBanList = p.getBoolean("useBanList", d.useBanList),
             rpcLan = p.getBoolean("rpcLan", d.rpcLan),
@@ -47,7 +45,6 @@ object SettingsStore {
 
     fun save(ctx: Context, s: NodeSettings) {
         ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-            .putBoolean("pruned", s.pruned)
             .putInt("storageIndex", s.storageIndex)
             .putBoolean("useBanList", s.useBanList)
             .putBoolean("rpcLan", s.rpcLan)

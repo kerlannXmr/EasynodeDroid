@@ -421,7 +421,7 @@ fun NodeScreen() {
         Section(stringResource(R.string.label_storage)) {
             KV(
                 stringResource(R.string.label_type),
-                stringResource(if (settings.pruned) R.string.type_pruned else R.string.type_full).substringBefore(" ("),
+                stringResource(R.string.type_pruned),
             )
             KV(storage.label, bytes(ctx, used))
             Hint(stringResource(R.string.free_space, bytes(ctx, free)))
@@ -430,6 +430,35 @@ fun NodeScreen() {
         }
 
         Hint(stringResource(R.string.warn_data))
+
+        GithubLinks()
+    }
+}
+
+private const val REPO_URL = "https://github.com/kerlannXmr/EasynodeDroid"
+
+/** Petits liens discrets en bas de l'écran d'accueil. */
+@Composable
+private fun GithubLinks() {
+    val ctx = LocalContext.current
+    fun open() = ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(REPO_URL)))
+    Column(Modifier.fillMaxWidth().padding(top = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+            TextButton(onClick = { open() }) {
+                Text(stringResource(R.string.link_github), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Text("·", color = Muted)
+            TextButton(onClick = { open() }) {
+                Text(stringResource(R.string.link_star), fontSize = 13.sp, color = XmrOrange)
+            }
+        }
+        Text(
+            stringResource(R.string.link_star_hint),
+            fontSize = 11.sp,
+            color = Muted,
+            modifier = Modifier.padding(bottom = 4.dp),
+        )
     }
 }
 
@@ -465,12 +494,6 @@ fun SettingsScreen() {
         }
 
         if (!editable) Hint(stringResource(R.string.settings_running_hint), Warn)
-
-        Section(stringResource(R.string.set_type)) {
-            RadioRow(stringResource(R.string.type_pruned), s.pruned, editable) { update(s.copy(pruned = true)) }
-            RadioRow(stringResource(R.string.type_full), !s.pruned, editable) { update(s.copy(pruned = false)) }
-            Hint(stringResource(R.string.type_hint))
-        }
 
         Section(stringResource(R.string.set_storage)) {
             options.forEachIndexed { i, o ->

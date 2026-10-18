@@ -46,7 +46,7 @@ MONERO_VERSION=0.18.5.4 bash scripts/fetch_monerod.sh   # Linux / macOS / WSL
 | 1 · Mise à jour système, ufw, fail2ban, SSH | Sans objet : Android gère les mises à jour et l'app est isolée dans son bac à sable |
 | 2 · Installer Monero CLI + vérification GPG | Fait **au build** (CI) : monerod vérifié puis embarqué dans l'APK |
 | 3 · Tor (services onion SSH + RPC) | Option « Diffuser les transactions via Tor » via **Orbot** (`--tx-proxy`). Pas de service onion ni de SSH (impossible sans root) |
-| 4 · bitmonero.conf + mot de passe RPC | Onglet **Réglages** (RPC local ou réseau, authentification, élaguée/complète) |
+| 4 · bitmonero.conf + mot de passe RPC | Onglet **Réglages** (RPC local ou réseau, authentification). Blockchain toujours élaguée |
 | 5 · DNS chiffrés | Réglage Android natif : *Paramètres › Réseau › DNS privé* → `dns.adguard-dns.com` |
 | 6 / 7 · Disque externe / démontage | Choix **Mémoire interne / Carte SD** + bouton de suppression des données |
 | 8 · Démarrage + liste d'IP bannies | Bouton **Démarrer** : liste Boog900 téléchargée et chargée via `--ban-list` |
@@ -57,7 +57,7 @@ MONERO_VERSION=0.18.5.4 bash scripts/fetch_monerod.sh   # Linux / macOS / WSL
 ## Bon à savoir
 
 - **ARM64 uniquement** (quasiment tous les téléphones depuis 2017) : c'est la seule version Android de monerod publiée par le projet Monero.
-- **Espace** : ~95 Go en élaguée (recommandé), ~230 Go en complète. Une carte SD A2/U3 fonctionne mais reste plus lente.
+- **Espace** : ~95 Go (blockchain toujours élaguée ; une base complète copiée est élaguée par monerod au démarrage). Une carte SD A2/U3 fonctionne mais reste plus lente.
 - **Première synchro** : plusieurs heures à plusieurs jours. Laisser le téléphone branché, en Wi-Fi, et désactiver l'optimisation de batterie (bouton dans Réglages). Par défaut l'app refuse de démarrer sur données mobiles.
 - **Wallet sur le téléphone** (Cake, Monerujo, Feather…) : nœud `127.0.0.1:18081`. **Wallet sur un PC du même Wi-Fi** : activer « Ouvrir le RPC au réseau local », l'adresse `IP:18081` s'affiche dans l'onglet Wallet.
 - Le service tourne en premier plan avec une notification permanente : c'est obligatoire sous Android pour un processus de longue durée.

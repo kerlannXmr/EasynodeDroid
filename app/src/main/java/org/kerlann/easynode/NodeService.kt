@@ -191,7 +191,8 @@ class NodeService : Service() {
             a += listOf("--rpc-bind-ip", "127.0.0.1")
         }
         s.rpcCredentials?.let { (u, p) -> a += listOf("--rpc-login", "$u:$p") }
-        if (s.pruned) a += listOf("--prune-blockchain", "--sync-pruned-blocks")
+        // Toujours élaguée : une base complète existante est élaguée par monerod au démarrage
+        a += listOf("--prune-blockchain", "--sync-pruned-blocks")
         if (banFile != null) a += listOf("--ban-list", banFile.absolutePath)
         if (s.torTx) a += listOf("--tx-proxy", "tor,127.0.0.1:9050,16")
         return a
