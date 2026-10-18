@@ -88,6 +88,7 @@ class NodeService : Service() {
 
     override fun onDestroy() {
         process?.destroy()
+        TorManager.stop(this)
         releaseLocks()
         scope.cancel()
         super.onDestroy()
@@ -120,7 +121,19 @@ class NodeService : Service() {
 
             if (stopping) return
 
-            val args = buildArgs(bin, dataDir, s, banFile)
+            // Tor intégré : adresse .onion pour les wallets + transactions via Tor
+            var torSocks: Int? = null
+            if (s.torTx) {
+                NodeState.appendLog(getString(R.string.log_tor_start))
+                val tor = TorManager.start(this) ?: throw IllegalStateException(getString(R.string.err_tor))
+                torSocks = tor.first
+                NodeState.appendLog(getString(R.string.log_tor_ready, tor.first))
+                tor.second?.let { NodeState.appendLog(getString(R.string.log_tor_onion, it, TorManager.ONION_PORT)) }
+            }
+
+            if (stopping) return
+
+            val args = buildArgs(bin, dataDir, s, banFile, torSocks)
             val shown = args.joinToString(" ").let { line ->
                 s.rpcCredentials?.let { line.replace(it.second, "****") } ?: line
             }
@@ -160,6 +173,7 @@ class NodeService : Service() {
             NodeState.fail(e.message ?: e.toString())
         } finally {
             process = null
+            TorManager.stop(this)
             releaseLocks()
             if (!failed) NodeState.setStatus(NodeStatus.STOPPED)
             ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
@@ -168,7 +182,7 @@ class NodeService : Service() {
     }
 
     /** Traduction de bitmonero.conf (configure_monero) en options de ligne de commande. */
-    private fun buildArgs(bin: File, dataDir: File, s: NodeSettings, banFile: File?): List<String> {
+    private fun buildArgs(bin: File, dataDir: File, s: NodeSettings, banFile: File?, torSocks: Int?): List<String> {
         val a = mutableListOf(
             bin.absolutePath,
             "--data-dir", dataDir.absolutePath,
@@ -194,7 +208,12 @@ class NodeService : Service() {
         // Toujours élaguée : une base complète existante est élaguée par monerod au démarrage
         a += listOf("--prune-blockchain", "--sync-pruned-blocks")
         if (banFile != null) a += listOf("--ban-list", banFile.absolutePath)
-        if (s.torTx) a += listOf("--tx-proxy", "tor,127.0.0.1:9050,16")
+        if (torSocks != null) {
+            // Transactions diffusées via Tor
+            a += listOf("--tx-proxy", "tor,127.0.0.1:$torSocks,16")
+            // RPC restreint dédié, accessible uniquement via l'adresse .onion
+            a += listOf("--rpc-restricted-bind-ip", "127.0.0.1", "--rpc-restricted-bind-port", TorManager.ONION_PORT.toString())
+        }
         return a
     }
 

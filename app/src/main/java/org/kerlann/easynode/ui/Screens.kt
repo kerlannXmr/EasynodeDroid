@@ -110,6 +110,7 @@ import org.kerlann.easynode.NodeStatus
 import org.kerlann.easynode.R
 import org.kerlann.easynode.SettingsStore
 import org.kerlann.easynode.Storage
+import org.kerlann.easynode.TorManager
 import org.kerlann.easynode.UpdateChecker
 import org.kerlann.easynode.UpdatePhase
 import org.kerlann.easynode.Updater
@@ -181,11 +182,11 @@ private fun AppHeader() {
                 .border(1.dp, Color(0xFF3A2A1F), shape)
                 // liseré orange à gauche
                 .drawBehind { drawRect(XmrOrange, size = Size(4.dp.toPx(), size.height)) }
-                .padding(start = 16.dp, end = 12.dp, top = 10.dp, bottom = 10.dp),
+                .padding(start = 16.dp, end = 12.dp, top = 15.dp, bottom = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                Modifier.size(46.dp).clip(RoundedCornerShape(13.dp)).background(Color(0xFF1E1E1E)),
+                Modifier.size(54.dp).clip(RoundedCornerShape(15.dp)).background(Color(0xFF1E1E1E)),
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
@@ -194,20 +195,20 @@ private fun AppHeader() {
                     modifier = Modifier.fillMaxSize(),
                 )
             }
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(
                     buildAnnotatedString {
                         append("Easynode")
                         withStyle(SpanStyle(color = XmrOrange)) { append("Droid") }
                     },
-                    fontSize = 20.sp,
+                    fontSize = 25.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Spacer(Modifier.height(3.dp))
+                Spacer(Modifier.height(5.dp))
                 // Ligne 2 : badge de version puis sous-titre
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -563,6 +564,7 @@ fun SettingsScreen() {
             SwitchRow(stringResource(R.string.set_tor), stringResource(R.string.set_tor_hint), s.torTx, editable) {
                 update(s.copy(torTx = it))
             }
+            if (s.torTx) OnionInfo()
         }
 
         Section {
@@ -625,6 +627,31 @@ fun SettingsScreen() {
     }
 }
 
+/** Adresse .onion + port, avec bouton copier (Réglages et onglet Wallet). */
+@Composable
+private fun OnionInfo() {
+    val ctx = LocalContext.current
+    val status by NodeState.status.collectAsStateWithLifecycle()
+    val onion = remember(status) { TorManager.savedOnion(ctx) }
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        if (onion == null) {
+            Hint(stringResource(R.string.tor_pending), Warn)
+        } else {
+            Text(stringResource(R.string.tor_address), fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+            CopyRow(onion, small = true)
+            Text(stringResource(R.string.tor_port, TorManager.ONION_PORT), fontFamily = FontFamily.Monospace, fontSize = 14.sp)
+            Hint(stringResource(R.string.tor_wallet_hint))
+        }
+    }
+}
+
 // ── Onglet Journal ───────────────────────────────────────────────────────────
 
 @Composable
@@ -664,11 +691,11 @@ private fun localIp(ctx: Context): String? {
 }
 
 @Composable
-private fun CopyRow(value: String) {
+private fun CopyRow(value: String, small: Boolean = false) {
     val clipboard = LocalClipboardManager.current
     val ctx = LocalContext.current
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(value, fontFamily = FontFamily.Monospace, fontSize = 18.sp, color = XmrOrange, modifier = Modifier.weight(1f))
+        Text(value, fontFamily = FontFamily.Monospace, fontSize = if (small) 13.sp else 18.sp, color = XmrOrange, modifier = Modifier.weight(1f))
         TextButton(onClick = {
             clipboard.setText(AnnotatedString(value))
             Toast.makeText(ctx, R.string.copied, Toast.LENGTH_SHORT).show()
@@ -701,6 +728,9 @@ fun InfoScreen() {
             } else {
                 Hint(stringResource(R.string.info_noauth))
             }
+        }
+        if (s.torTx) {
+            Section(stringResource(R.string.info_tor_title)) { OnionInfo() }
         }
         Section(stringResource(R.string.info_steps_title)) { Text(stringResource(R.string.info_steps), lineHeight = 22.sp) }
         Section(stringResource(R.string.info_p2p_title)) { Hint(stringResource(R.string.info_p2p)) }

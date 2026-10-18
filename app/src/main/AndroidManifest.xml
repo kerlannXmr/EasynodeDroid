@@ -40,6 +40,10 @@
                 android:value="Runs a user-started Monero full node (monerod) until the user stops it" />
         </service>
 
+        <service
+            android:name="org.torproject.jni.TorService"
+            android:exported="false" />
+
         <receiver
             android:name=".InstallResultReceiver"
             android:exported="false" />

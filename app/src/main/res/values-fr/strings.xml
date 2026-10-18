@@ -49,8 +49,8 @@
     <string name="set_rpc_user">Nom d’utilisateur</string>
     <string name="set_rpc_pass">Mot de passe (6 caractères min.)</string>
     <string name="warn_lan_no_login">RPC ouvert sans mot de passe : tout appareil du réseau peut l’utiliser.</string>
-    <string name="set_tor">Diffuser les transactions via Tor (Orbot)</string>
-    <string name="set_tor_hint">Nécessite Orbot lancé avec son proxy SOCKS sur 127.0.0.1:9050.</string>
+    <string name="set_tor">Tor : adresse .onion + transactions via Tor</string>
+    <string name="set_tor_hint">Tor est intégré à l’application (Orbot n’est pas nécessaire). Donne à votre nœud une adresse .onion pour les wallets et diffuse vos transactions via Tor. Le démarrage prend jusqu’à une minute de plus.</string>
     <string name="set_metered">Autoriser les données mobiles</string>
     <string name="set_metered_hint">La synchronisation télécharge des dizaines de Go.</string>
     <string name="set_battery">Désactiver l’optimisation de batterie</string>
@@ -115,4 +115,13 @@
     <string name="link_share">Partager l’application</string>
     <string name="share_chooser">Partager EasynodeDroid</string>
     <string name="share_text">EasynodeDroid : votre propre nœud Monero sur Android. Téléchargement : %1$s</string>
+    <string name="tor_address">Adresse onion</string>
+    <string name="tor_port">Port : %1$d</string>
+    <string name="tor_pending">L’adresse .onion apparaîtra ici après le premier démarrage du nœud avec Tor activé.</string>
+    <string name="tor_wallet_hint">Dans le wallet : saisir cette adresse et ce port comme nœud distant, et activer Tor dans le wallet (ou utiliser Orbot). Les identifiants sont demandés si l’authentification RPC est active.</string>
+    <string name="info_tor_title">Wallet via Tor (.onion)</string>
+    <string name="log_tor_start">Démarrage de Tor…</string>
+    <string name="log_tor_ready">Tor prêt (port SOCKS %1$d)</string>
+    <string name="log_tor_onion">Adresse onion : %1$s:%2$d</string>
+    <string name="err_tor">Tor n’a pas démarré. Vérifiez la connexion, ou désactivez Tor dans les Réglages.</string>
 </resources>

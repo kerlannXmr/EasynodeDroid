@@ -51,8 +51,8 @@
     <string name="set_rpc_user">Username</string>
     <string name="set_rpc_pass">Password (min. 6 characters)</string>
     <string name="warn_lan_no_login">RPC open without a password: any device on the network can use it.</string>
-    <string name="set_tor">Broadcast transactions over Tor (Orbot)</string>
-    <string name="set_tor_hint">Requires Orbot running with its SOCKS proxy on 127.0.0.1:9050.</string>
+    <string name="set_tor">Tor: .onion address + transactions via Tor</string>
+    <string name="set_tor_hint">Tor is built into the app (Orbot not needed). Gives your node an .onion address for wallets and broadcasts your transactions through Tor. Start takes up to a minute longer.</string>
     <string name="set_metered">Allow mobile data</string>
     <string name="set_metered_hint">The sync downloads tens of GB.</string>
     <string name="set_battery">Disable battery optimization</string>
@@ -117,4 +117,13 @@
     <string name="link_share">Share the app</string>
     <string name="share_chooser">Share EasynodeDroid</string>
     <string name="share_text">EasynodeDroid: run your own Monero node on Android. Download: %1$s</string>
+    <string name="tor_address">Onion address</string>
+    <string name="tor_port">Port: %1$d</string>
+    <string name="tor_pending">The .onion address will appear here after the first start of the node with Tor enabled.</string>
+    <string name="tor_wallet_hint">In the wallet: enter this address and this port as the remote node, and enable Tor in the wallet (or use Orbot). Credentials are required if RPC authentication is on.</string>
+    <string name="info_tor_title">Wallet via Tor (.onion)</string>
+    <string name="log_tor_start">Starting Tor…</string>
+    <string name="log_tor_ready">Tor ready (SOCKS port %1$d)</string>
+    <string name="log_tor_onion">Onion address: %1$s:%2$d</string>
+    <string name="err_tor">Tor did not start. Check the connection, or disable Tor in Settings.</string>
 </resources>
