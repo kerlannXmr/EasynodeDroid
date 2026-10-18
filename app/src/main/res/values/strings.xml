@@ -89,7 +89,7 @@
     <string name="info_p2p_title">Port 18080 (incoming peers)</string>
     <string name="info_p2p">To accept incoming peers, forward port 18080 of your router to the phone’s IP. On mobile networks (CGNAT) this is usually impossible; the node still works with outgoing peers only.</string>
     <string name="info_about_title">About</string>
-    <string name="info_about">EasynodeDroid, adapted from kerlann’s EasyMonerod script.\nApp source code: github.com/kerlannXmr/EasynodeDroid\nOriginal Linux script: github.com/kerlannXmr/easymonerod\nXMR donations (Cake Wallet): kerlann.xmr\nContact: easynode@kerlann.org</string>
+    <string name="info_about">EasynodeDroid, adapted from kerlann’s EasyMonerod script.\nXMR donations ❤ (address): kerlann.xmr</string>
     <string name="copied">Copied</string>
     <string name="update_available">New version available</string>
     <string name="update_notif_channel">Updates</string>
@@ -111,7 +111,7 @@
     <string name="set_auto_update">Install updates automatically</string>
     <string name="set_auto_update_hint">While the node runs: downloads, checks the signature, stops the node, installs and restarts it. Android may ask for one confirmation. Never on mobile data unless allowed above.</string>
     <string name="header_subtitle">Pruned Monero node</string>
-    <string name="link_github">Source code on GitHub</string>
+    <string name="link_github">Source code</string>
     <string name="link_star">⭐ Give a star</string>
-    <string name="link_star_hint">To star: tap “Star” at the top of the page (GitHub account needed).</string>
+    <string name="link_star_hint">To star: tap “Star” at the top of the page.</string>
 </resources>
