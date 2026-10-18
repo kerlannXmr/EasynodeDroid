@@ -114,4 +114,7 @@
     <string name="link_github">Source code</string>
     <string name="link_star">⭐ Give a star</string>
     <string name="link_star_hint">To star: tap “Star” at the top of the page.</string>
+    <string name="link_share">Share the app</string>
+    <string name="share_chooser">Share EasynodeDroid</string>
+    <string name="share_text">EasynodeDroid: run your own Monero node on Android. Download: %1$s</string>
 </resources>

@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -50,6 +51,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -436,6 +438,7 @@ fun NodeScreen() {
 }
 
 private const val REPO_URL = "https://github.com/kerlannXmr/EasynodeDroid"
+private const val DOWNLOAD_URL = "https://github.com/kerlannXmr/EasynodeDroid/releases/latest"
 
 /** Petits liens discrets en bas de l'écran d'accueil. */
 @Composable
@@ -457,8 +460,25 @@ private fun GithubLinks() {
             stringResource(R.string.link_star_hint),
             fontSize = 11.sp,
             color = Muted,
-            modifier = Modifier.padding(bottom = 4.dp),
         )
+        Spacer(Modifier.height(10.dp))
+        val chooserTitle = stringResource(R.string.share_chooser)
+        val shareText = stringResource(R.string.share_text, DOWNLOAD_URL)
+        OutlinedButton(
+            onClick = {
+                val send = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, shareText)
+                }
+                ctx.startActivity(Intent.createChooser(send, chooserTitle))
+            },
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+            modifier = Modifier.padding(bottom = 6.dp),
+        ) {
+            Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(16.dp), tint = XmrOrange)
+            Spacer(Modifier.width(8.dp))
+            Text(stringResource(R.string.link_share), fontSize = 13.sp)
+        }
     }
 }
 
