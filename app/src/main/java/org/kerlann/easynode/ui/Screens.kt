@@ -205,25 +205,30 @@ private fun AppHeader() {
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Text(
-                    stringResource(R.string.header_subtitle),
-                    fontSize = 12.sp,
-                    color = Color(0xFFA0A0A0),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Spacer(Modifier.height(3.dp))
+                // Ligne 2 : badge de version puis sous-titre
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        "v${BuildConfig.MONERO_VERSION}",
+                        fontFamily = FontFamily.Monospace,
+                        fontSize = 11.sp,
+                        color = XmrOrange,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .border(1.dp, XmrOrange, RoundedCornerShape(10.dp))
+                            .padding(horizontal = 7.dp, vertical = 2.dp),
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        stringResource(R.string.header_subtitle),
+                        fontSize = 12.sp,
+                        color = Color(0xFFA0A0A0),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
-            Spacer(Modifier.width(8.dp))
-            Text(
-                "v${BuildConfig.MONERO_VERSION}",
-                fontFamily = FontFamily.Monospace,
-                fontSize = 11.sp,
-                color = XmrOrange,
-                maxLines = 1,
-                modifier = Modifier
-                    .border(1.dp, XmrOrange, RoundedCornerShape(10.dp))
-                    .padding(horizontal = 7.dp, vertical = 3.dp),
-            )
         }
     }
 }
