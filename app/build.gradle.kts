@@ -15,11 +15,14 @@ android {
         applicationId = "org.kerlann.easynode"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        // Le numéro augmente à chaque build GitHub : chaque APK est une mise à jour.
+        versionCode = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
+        versionName = "1.1.0"
+        // Garder cet identifiant : le changer = autre application = blockchain perdue
         // monerod officiel n'existe que pour ARM64 (monero-android-armv8)
         ndk { abiFilters += "arm64-v8a" }
-        buildConfigField("String", "MONERO_VERSION", "\"${System.getenv("MONERO_VERSION") ?: "0.18.5.4"}\"")
+        buildConfigField("String", "UPDATE_REPO", "\"${System.getenv("GITHUB_REPOSITORY") ?: ""}\"")
+        buildConfigField("String", "MONERO_VERSION", "\"${System.getenv("MONERO_VERSION") ?: "dev"}\"")
     }
 
     signingConfigs {

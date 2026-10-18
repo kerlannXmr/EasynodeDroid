@@ -1,6 +1,7 @@
 package org.kerlann.easynode.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -85,6 +86,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.kerlann.easynode.BuildConfig
+import org.kerlann.easynode.LocaleHelper
 import org.kerlann.easynode.NodeService
 import org.kerlann.easynode.NodeSettings
 import org.kerlann.easynode.NodeState
@@ -92,6 +94,9 @@ import org.kerlann.easynode.NodeStatus
 import org.kerlann.easynode.R
 import org.kerlann.easynode.SettingsStore
 import org.kerlann.easynode.Storage
+import org.kerlann.easynode.UpdateChecker
+import org.kerlann.easynode.UpdatePhase
+import org.kerlann.easynode.Updater
 import org.kerlann.easynode.percent
 import java.net.Inet4Address
 
@@ -111,7 +116,7 @@ fun EasyNodeApp() {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text("▌EASYNODE▐", color = XmrOrange, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
+                    Text("▌EASYNODEDROID▐", color = XmrOrange, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background),
             )
@@ -233,6 +238,10 @@ fun NodeScreen() {
         free = f
     }
 
+    val update by UpdateChecker.available.collectAsStateWithLifecycle()
+    val updState by Updater.state.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) { UpdateChecker.check(ctx) }
+
     val (statusText, statusColor) = when (status) {
         NodeStatus.STOPPED -> stringResource(R.string.status_stopped) to Muted
         NodeStatus.STARTING -> stringResource(R.string.status_starting) to Warn
@@ -243,6 +252,37 @@ fun NodeScreen() {
     val active = status == NodeStatus.RUNNING || status == NodeStatus.STARTING
 
     ScreenColumn {
+        update?.let { u ->
+            Section(stringResource(R.string.update_available)) {
+                Text(u.name, fontWeight = FontWeight.SemiBold)
+                when (updState.phase) {
+                    UpdatePhase.DOWNLOADING -> {
+                        Text(stringResource(R.string.upd_downloading, percent(updState.progress)))
+                        LinearProgressIndicator(progress = { updState.progress }, modifier = Modifier.fillMaxWidth(), color = XmrOrange)
+                    }
+                    UpdatePhase.STOPPING_NODE -> {
+                        Text(stringResource(R.string.upd_stopping))
+                        LinearProgressIndicator(Modifier.fillMaxWidth(), color = XmrOrange)
+                    }
+                    UpdatePhase.INSTALLING -> {
+                        Text(stringResource(R.string.upd_installing))
+                        LinearProgressIndicator(Modifier.fillMaxWidth(), color = XmrOrange)
+                    }
+                    UpdatePhase.WAITING_USER -> Hint(updState.message ?: "", Warn)
+                    UpdatePhase.ERROR, UpdatePhase.IDLE -> {
+                        Hint(stringResource(R.string.update_hint))
+                        updState.message?.let { Hint(it, Err) }
+                    }
+                }
+                if (!Updater.busy) {
+                    Button(
+                        onClick = { Updater.start(ctx, u, interactive = true) },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) { Text(stringResource(R.string.update_install)) }
+                }
+            }
+        }
+
         Section {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(12.dp).background(statusColor, CircleShape))
@@ -320,6 +360,22 @@ fun SettingsScreen() {
     var confirmDelete by remember { mutableStateOf(false) }
 
     ScreenColumn {
+        Section(stringResource(R.string.set_language)) {
+            val current = remember { LocaleHelper.get(ctx) }
+            listOf(
+                LocaleHelper.SYSTEM to stringResource(R.string.lang_system),
+                "fr" to "Français",
+                "en" to "English",
+            ).forEach { (code, label) ->
+                RadioRow(label, current == code, true) {
+                    if (code != current) {
+                        LocaleHelper.set(ctx, code)
+                        (ctx as? Activity)?.recreate()
+                    }
+                }
+            }
+        }
+
         if (!editable) Hint(stringResource(R.string.settings_running_hint), Warn)
 
         Section(stringResource(R.string.set_type)) {
@@ -382,6 +438,15 @@ fun SettingsScreen() {
             SwitchRow(stringResource(R.string.set_metered), stringResource(R.string.set_metered_hint), s.allowMetered, true) {
                 update(s.copy(allowMetered = it))
             }
+            HorizontalDivider()
+            SwitchRow(stringResource(R.string.set_updates), stringResource(R.string.set_updates_hint), s.checkUpdates, true) {
+                update(s.copy(checkUpdates = it))
+            }
+            if (s.checkUpdates) {
+                SwitchRow(stringResource(R.string.set_auto_update), stringResource(R.string.set_auto_update_hint), s.autoInstall, true) {
+                    update(s.copy(autoInstall = it))
+                }
+            }
             val pm = ctx.getSystemService(PowerManager::class.java)
             if (!pm.isIgnoringBatteryOptimizations(ctx.packageName)) {
                 HorizontalDivider()
@@ -404,7 +469,7 @@ fun SettingsScreen() {
             modifier = Modifier.fillMaxWidth(),
         ) { Text(stringResource(R.string.set_delete)) }
 
-        Hint("monerod v${BuildConfig.MONERO_VERSION} · EasyNode ${BuildConfig.VERSION_NAME}")
+        Hint("monerod v${BuildConfig.MONERO_VERSION} · EasynodeDroid ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
     }
 
     if (confirmDelete) {

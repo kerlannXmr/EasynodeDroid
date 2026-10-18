@@ -1,6 +1,7 @@
 package org.kerlann.easynode
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +18,10 @@ class MainActivity : ComponentActivity() {
     private val notifPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,5 +31,15 @@ class MainActivity : ComponentActivity() {
             notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
         setContent { EasyNodeTheme { EasyNodeApp() } }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AppVisibility.foreground = true
+    }
+
+    override fun onPause() {
+        AppVisibility.foreground = false
+        super.onPause()
     }
 }

@@ -44,6 +44,9 @@ class NodeService : Service() {
         const val P2P_PORT = 18080
         private const val CHANNEL_ID = "node"
         private const val NOTIF_ID = 1
+        private const val UPDATE_CHANNEL_ID = "updates"
+        private const val UPDATE_NOTIF_ID = 2
+        private const val UPDATE_INTERVAL_MS = 12L * 3600 * 1000
 
         fun start(ctx: Context) {
             ContextCompat.startForegroundService(ctx, Intent(ctx, NodeService::class.java).setAction(ACTION_START))
@@ -62,6 +65,10 @@ class NodeService : Service() {
     @Volatile private var stopping = false
     private var wakeLock: PowerManager.WakeLock? = null
     private var wifiLock: WifiManager.WifiLock? = null
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase))
+    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -192,8 +199,20 @@ class NodeService : Service() {
 
     private suspend fun pollLoop(s: NodeSettings) {
         val rpc = RpcClient(RPC_PORT, s.rpcCredentials)
+        var lastUpdateCheck = 0L
         delay(8_000)
         while (scope.isActive) {
+            if (System.currentTimeMillis() - lastUpdateCheck > UPDATE_INTERVAL_MS) {
+                lastUpdateCheck = System.currentTimeMillis()
+                UpdateChecker.check(this)?.let { info ->
+                    if (UpdateChecker.shouldNotify(this, info)) {
+                        val canInstall = Build.VERSION.SDK_INT < Build.VERSION_CODES.O || packageManager.canRequestPackageInstalls()
+                        // Mise à jour 100 % automatique si autorisée, sinon simple notification
+                        if (Updater.autoAllowed(this) && canInstall) Updater.start(this, info, interactive = false)
+                        else notifyUpdate(info)
+                    }
+                }
+            }
             val r = rpc.getInfo()
             if (r != null) {
                 val info = NodeInfo(
@@ -270,6 +289,25 @@ class NodeService : Service() {
             .setContentIntent(open)
             .addAction(0, getString(R.string.btn_stop), stop)
             .build()
+    }
+
+    private fun notifyUpdate(info: UpdateInfo) {
+        Updater.ensureChannel(this)
+        val open = PendingIntent.getActivity(
+            this, 2, Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        getSystemService(NotificationManager::class.java).notify(
+            UPDATE_NOTIF_ID,
+            NotificationCompat.Builder(this, UPDATE_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_stat_node)
+                .setContentTitle(getString(R.string.update_notif_title))
+                .setContentText(info.name)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(info.name + "\n" + getString(R.string.upd_notif_open)))
+                .setContentIntent(open)
+                .setAutoCancel(true)
+                .build()
+        )
     }
 
     @Suppress("DEPRECATION")

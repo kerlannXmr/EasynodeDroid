@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">EasyNode</string>
+    <string name="app_name" translatable="false">EasynodeDroid</string>
 
     <string name="tab_node">Node</string>
     <string name="tab_settings">Settings</string>
@@ -35,6 +35,8 @@
     <string name="err_exit">monerod stopped (exit code %1$d). See the Log tab.</string>
     <string name="err_not_writable">Folder not writable: %1$s</string>
 
+    <string name="set_language">Language</string>
+    <string name="lang_system">Phone language</string>
     <string name="settings_running_hint">Stop the node to change settings.</string>
     <string name="set_type">Blockchain type</string>
     <string name="type_pruned">Pruned (~95 GB) — recommended</string>
@@ -90,6 +92,25 @@
     <string name="info_p2p_title">Port 18080 (incoming peers)</string>
     <string name="info_p2p">To accept incoming peers, forward port 18080 of your router to the phone’s IP. On mobile networks (CGNAT) this is usually impossible; the node still works with outgoing peers only.</string>
     <string name="info_about_title">About</string>
-    <string name="info_about">EasyNode for Android, adapted from kerlann’s EasyMonerod script.\nSource code: github.com/kerlannXmr/easymonerod\nXMR donations (Cake Wallet): kerlann.xmr\nContact: easynode@kerlann.org</string>
+    <string name="info_about">EasynodeDroid, adapted from kerlann’s EasyMonerod script.\nSource code: github.com/kerlannXmr/easymonerod\nXMR donations (Cake Wallet): kerlann.xmr\nContact: easynode@kerlann.org</string>
     <string name="copied">Copied</string>
+    <string name="update_available">New version available</string>
+    <string name="update_notif_channel">Updates</string>
+    <string name="update_notif_title">EasynodeDroid update available</string>
+    <string name="set_updates">Check for updates</string>
+    <string name="set_updates_hint">Asks GitHub when the app opens and every 12 h while the node runs. GitHub can see your IP address.</string>
+    <string name="update_hint">The node is stopped during the update and restarted afterwards. The blockchain is kept.</string>
+    <string name="update_install">Install the update</string>
+    <string name="upd_downloading">Downloading… %1$s</string>
+    <string name="upd_stopping">Stopping the node before updating…</string>
+    <string name="upd_installing">Installing…</string>
+    <string name="upd_confirm">Confirm the installation in the Android window (“Update”).</string>
+    <string name="upd_need_permission">Allow EasynodeDroid to install apps (switch on the screen that opens), then come back and tap “Install the update” again.</string>
+    <string name="upd_err_download">Download failed. Check the connection and try again.</string>
+    <string name="upd_err_signature">The downloaded file is not signed with the same key as this app: installation refused for your safety.</string>
+    <string name="upd_err_install">Installation failed: %1$s</string>
+    <string name="upd_notif_confirm">Tap to confirm the update</string>
+    <string name="upd_notif_open">Tap to open the app and install it.</string>
+    <string name="set_auto_update">Install updates automatically</string>
+    <string name="set_auto_update_hint">While the node runs: downloads, checks the signature, stops the node, installs and restarts it. Android may ask for one confirmation. Never on mobile data unless allowed above.</string>
 </resources>

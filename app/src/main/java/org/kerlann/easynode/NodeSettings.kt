@@ -13,6 +13,8 @@ data class NodeSettings(
     val rpcPassword: String = "",
     val torTx: Boolean = false,
     val allowMetered: Boolean = false,
+    val checkUpdates: Boolean = true,
+    val autoInstall: Boolean = true,
 ) {
     val rpcCredentials: Pair<String, String>?
         get() = if (rpcLogin && rpcUser.isNotBlank() && rpcPassword.isNotEmpty()) rpcUser to rpcPassword else null
@@ -38,6 +40,8 @@ object SettingsStore {
             rpcPassword = p.getString("rpcPassword", d.rpcPassword) ?: d.rpcPassword,
             torTx = p.getBoolean("torTx", d.torTx),
             allowMetered = p.getBoolean("allowMetered", d.allowMetered),
+            checkUpdates = p.getBoolean("checkUpdates", d.checkUpdates),
+            autoInstall = p.getBoolean("autoInstall", d.autoInstall),
         )
     }
 
@@ -52,6 +56,8 @@ object SettingsStore {
             .putString("rpcPassword", s.rpcPassword)
             .putBoolean("torTx", s.torTx)
             .putBoolean("allowMetered", s.allowMetered)
+            .putBoolean("checkUpdates", s.checkUpdates)
+            .putBoolean("autoInstall", s.autoInstall)
             .apply()
     }
 }

@@ -6,7 +6,7 @@
 # Usage : MONERO_VERSION=0.18.5.4 bash scripts/fetch_monerod.sh
 set -euo pipefail
 
-VERSION="${MONERO_VERSION:-0.18.5.4}"
+VERSION="${MONERO_VERSION:?MONERO_VERSION manquant (ex: MONERO_VERSION=0.18.5.4)}"
 FILE="monero-android-armv8-v${VERSION}.tar.bz2"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT_DIR="$REPO_ROOT/app/src/main/jniLibs/arm64-v8a"

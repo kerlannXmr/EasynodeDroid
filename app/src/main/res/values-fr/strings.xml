@@ -33,6 +33,8 @@
     <string name="err_exit">monerod s’est arrêté (code %1$d). Voir l’onglet Journal.</string>
     <string name="err_not_writable">Dossier non accessible en écriture : %1$s</string>
 
+    <string name="set_language">Langue</string>
+    <string name="lang_system">Langue du téléphone</string>
     <string name="settings_running_hint">Arrêtez le nœud pour modifier les réglages.</string>
     <string name="set_type">Type de blockchain</string>
     <string name="type_pruned">Élaguée (~95 Go) — recommandé</string>
@@ -88,6 +90,25 @@
     <string name="info_p2p_title">Port 18080 (pairs entrants)</string>
     <string name="info_p2p">Pour accepter des pairs entrants, redirigez le port 18080 de votre box vers l’IP du téléphone. Sur réseau mobile (CGNAT) c’est généralement impossible ; le nœud fonctionne quand même avec des pairs sortants.</string>
     <string name="info_about_title">À propos</string>
-    <string name="info_about">EasyNode pour Android, adapté du script EasyMonerod de kerlann.\nCode source : github.com/kerlannXmr/easymonerod\nDons XMR (Cake Wallet) : kerlann.xmr\nContact : easynode@kerlann.org</string>
+    <string name="info_about">EasynodeDroid, adapté du script EasyMonerod de kerlann.\nCode source : github.com/kerlannXmr/easymonerod\nDons XMR (Cake Wallet) : kerlann.xmr\nContact : easynode@kerlann.org</string>
     <string name="copied">Copié</string>
+    <string name="update_available">Nouvelle version disponible</string>
+    <string name="update_notif_channel">Mises à jour</string>
+    <string name="update_notif_title">Mise à jour d’EasynodeDroid disponible</string>
+    <string name="set_updates">Vérifier les mises à jour</string>
+    <string name="set_updates_hint">Interroge GitHub à l’ouverture de l’app et toutes les 12 h quand le nœud tourne. GitHub voit votre adresse IP.</string>
+    <string name="update_hint">Le nœud est arrêté pendant la mise à jour puis redémarré. La blockchain est conservée.</string>
+    <string name="update_install">Installer la mise à jour</string>
+    <string name="upd_downloading">Téléchargement… %1$s</string>
+    <string name="upd_stopping">Arrêt du nœud avant la mise à jour…</string>
+    <string name="upd_installing">Installation…</string>
+    <string name="upd_confirm">Confirmez l’installation dans la fenêtre d’Android (« Mettre à jour »).</string>
+    <string name="upd_need_permission">Autorisez EasynodeDroid à installer des applications (interrupteur sur l’écran qui s’ouvre), puis revenez et touchez à nouveau « Installer la mise à jour ».</string>
+    <string name="upd_err_download">Échec du téléchargement. Vérifiez la connexion et réessayez.</string>
+    <string name="upd_err_signature">Le fichier téléchargé n’est pas signé avec la même clé que cette application : installation refusée par sécurité.</string>
+    <string name="upd_err_install">Échec de l’installation : %1$s</string>
+    <string name="upd_notif_confirm">Touchez pour confirmer la mise à jour</string>
+    <string name="upd_notif_open">Touchez pour ouvrir l’application et l’installer.</string>
+    <string name="set_auto_update">Installer les mises à jour automatiquement</string>
+    <string name="set_auto_update_hint">Quand le nœud tourne : télécharge, vérifie la signature, arrête le nœud, installe et le redémarre. Android peut demander une confirmation. Jamais sur données mobiles sauf autorisation ci-dessus.</string>
 </resources>
