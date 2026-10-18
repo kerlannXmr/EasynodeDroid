@@ -1,6 +1,6 @@
 # EasynodeDroid
 
-Version Android d'EasyMonerod : un nœud Monero complet (`monerod`) qui tourne directement sur le téléphone, avec démarrage/arrêt en un bouton, suivi de la synchronisation et blocage des nœuds espions.
+Version Android d'EasyMonerod : un nœud Monero (`monerod`) qui tourne directement sur le téléphone, avec démarrage/arrêt en un bouton, suivi de la synchronisation et blocage des nœuds espions.
 
 
 ## Correspondance avec le script Linux
