@@ -42,7 +42,9 @@ object TorManager {
         // Configuration du service onion : <onion>:18089 → 127.0.0.1:18089 (RPC restreint)
         TorService.getTorrc(ctx).writeText(
             "HiddenServiceDir ${serviceDir(ctx).absolutePath}\n" +
-                "HiddenServicePort $ONION_PORT 127.0.0.1:$ONION_PORT\n"
+                "HiddenServicePort $ONION_PORT 127.0.0.1:$ONION_PORT\n" +
+                // Plus de points d'introduction : connexion des wallets plus fiable
+                "HiddenServiceNumIntroductionPoints 5\n"
         )
 
         val service = withTimeoutOrNull(30_000) {

@@ -195,8 +195,10 @@ class NodeService : Service() {
             "--p2p-bind-ip", "0.0.0.0",
             "--p2p-bind-port", P2P_PORT.toString(),
             "--rpc-bind-port", RPC_PORT.toString(),
-            "--out-peers", "16",
-            "--in-peers", "32",
+            // Avec Tor : moins de pairs et envoi P2P limité, pour laisser la bande passante
+            // de la connexion internet aux wallets qui passent par l'adresse .onion
+            "--out-peers", if (torSocks != null) "8" else "16",
+            "--in-peers", if (torSocks != null) "8" else "32",
             "--disable-dns-checkpoints",
         )
         if (s.rpcLan) {
@@ -209,6 +211,7 @@ class NodeService : Service() {
         a += listOf("--prune-blockchain", "--sync-pruned-blocks")
         if (banFile != null) a += listOf("--ban-list", banFile.absolutePath)
         if (torSocks != null) {
+            a += listOf("--limit-rate-up", "512") // ko/s
             // Transactions diffusées via Tor
             a += listOf("--tx-proxy", "tor,127.0.0.1:$torSocks,16")
             // RPC restreint dédié, accessible uniquement via l'adresse .onion
@@ -338,8 +341,10 @@ class NodeService : Service() {
                 .apply { setReferenceCounted(false); acquire() }
         }
         if (wifiLock == null) {
+            val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                WifiManager.WIFI_MODE_FULL_LOW_LATENCY else WifiManager.WIFI_MODE_FULL_HIGH_PERF
             wifiLock = applicationContext.getSystemService(WifiManager::class.java)
-                ?.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "EasyNode::wifi")
+                ?.createWifiLock(mode, "EasyNode::wifi")
                 ?.apply { setReferenceCounted(false); acquire() }
         }
     }
