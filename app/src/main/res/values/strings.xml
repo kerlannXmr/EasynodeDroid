@@ -38,7 +38,7 @@
     <string name="set_language">Language</string>
     <string name="lang_system">Phone language</string>
     <string name="settings_running_hint">Stop the node to change settings.</string>
-    <string name="type_pruned">Pruned (~95 GB)</string>
+    <string name="type_pruned">Pruned (~115 GB)</string>
     <string name="set_storage">Storage location</string>
     <string name="storage_internal">Internal storage</string>
     <string name="storage_sd">SD card</string>
