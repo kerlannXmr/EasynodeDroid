@@ -185,11 +185,11 @@ private fun AppHeader() {
                 .border(1.dp, Color(0xFF3A2A1F), shape)
                 // liseré orange à gauche
                 .drawBehind { drawRect(XmrOrange, size = Size(4.dp.toPx(), size.height)) }
-                .padding(start = 16.dp, end = 12.dp, top = 15.dp, bottom = 15.dp),
+                .padding(start = 16.dp, end = 12.dp, top = 18.dp, bottom = 18.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                Modifier.size(54.dp).clip(RoundedCornerShape(15.dp)).background(Color(0xFF1E1E1E)),
+                Modifier.size(60.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFF1E1E1E)),
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
@@ -205,13 +205,13 @@ private fun AppHeader() {
                         append("Easynode")
                         withStyle(SpanStyle(color = XmrOrange)) { append("Droid") }
                     },
-                    fontSize = 25.sp,
+                    fontSize = 28.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Spacer(Modifier.height(5.dp))
+                Spacer(Modifier.height(6.dp))
                 // Ligne 2 : badge de version puis sous-titre
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(

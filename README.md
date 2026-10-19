@@ -75,7 +75,7 @@
 |---|---|
 | **Android** | 8.0 or newer |
 | **Processor** | ARM64 (arm64-v8a), almost every phone since 2017 |
-| **Storage** | ~115 GB free for the pruned blockchain, plus room to grow (128 GB SD card or more recommended) |
+| **Storage** | ~115 GB free for the pruned blockchain, plus room to grow (256 GB SD card or more recommended) |
 | **RAM** | 3 GB or more recommended |
 | **Network** | Wi-Fi strongly recommended: the first sync downloads tens of GB |
 
@@ -190,7 +190,7 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 ## Troubleshooting
 
 **The node won't start**
-- Check the free space in the **Node** tab (~95 GB needed).
+- Check the free space in the **Node** tab (~115 GB needed, 250 GB recommended).
 - On mobile data the app refuses to start unless **Allow mobile data** is enabled.
 - With Tor enabled, the node does not start if Tor cannot connect (by design, so your transactions are never sent without Tor). Check the connection or disable Tor.
 - Look at the **Log** tab for the exact error.

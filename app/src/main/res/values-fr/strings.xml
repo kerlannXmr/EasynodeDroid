@@ -23,7 +23,7 @@
     <string name="label_storage">Stockage</string>
     <string name="label_type">Blockchain</string>
     <string name="free_space">Libre : %1$s</string>
-    <string name="space_needed">Espace requis : ~%1$s</string>
+    <string name="space_needed">Espace requis : ~%1$s (250 Go conseillés pour les années à venir)</string>
     <string name="warn_space">Espace libre insuffisant pour ce type de blockchain.</string>
     <string name="warn_data">La première synchronisation télécharge des dizaines de Go et prend de plusieurs heures à plusieurs jours. Laissez le téléphone branché et en Wi-Fi.</string>
 

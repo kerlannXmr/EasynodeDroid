@@ -20,7 +20,7 @@ data class NodeSettings(
 
     /** Espace disque approximatif requis (blockchain toujours élaguée). */
     val requiredBytes: Long
-        get() = 95L * 1_000_000_000
+        get() = 115L * 1_000_000_000
 }
 
 object SettingsStore {

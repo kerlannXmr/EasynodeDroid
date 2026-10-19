@@ -25,7 +25,7 @@
     <string name="label_storage">Storage</string>
     <string name="label_type">Blockchain</string>
     <string name="free_space">Free: %1$s</string>
-    <string name="space_needed">Space needed: ~%1$s</string>
+    <string name="space_needed">Space needed: ~%1$s (250 GB recommended for the coming years)</string>
     <string name="warn_space">Not enough free space for this blockchain type.</string>
     <string name="warn_data">The first sync downloads tens of GB and takes from several hours to several days. Keep the phone plugged in and on Wi-Fi.</string>
 

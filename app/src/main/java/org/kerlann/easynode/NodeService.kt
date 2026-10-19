@@ -251,7 +251,8 @@ class NodeService : Service() {
                     outgoing = r.optInt("outgoing_connections_count"),
                     synchronized = r.optBoolean("synchronized"),
                     databaseSize = r.optLong("database_size"),
-                    version = r.optString("version"),
+                    // "0.18.4.5-release" → "0.18.4.5" (évite un retour à la ligne sur petits écrans)
+                    version = r.optString("version").substringBefore("-"),
                 )
                 NodeState.setInfo(info)
                 val peers = info.incoming + info.outgoing
