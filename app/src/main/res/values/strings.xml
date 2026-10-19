@@ -128,4 +128,6 @@
     <string name="err_tor">Tor did not start. Check the connection, or disable Tor in Settings.</string>
     <string name="pass_show">👁 Show</string>
     <string name="pass_hide">Hide</string>
+    <string name="log_share">Share the log</string>
+    <string name="log_share_title">Share the EasynodeDroid log</string>
 </resources>

@@ -126,4 +126,6 @@
     <string name="err_tor">Tor n’a pas démarré. Vérifiez la connexion, ou désactivez Tor dans les Réglages.</string>
     <string name="pass_show">👁 Afficher</string>
     <string name="pass_hide">Masquer</string>
+    <string name="log_share">Partager le journal</string>
+    <string name="log_share_title">Partager le journal d’EasynodeDroid</string>
 </resources>

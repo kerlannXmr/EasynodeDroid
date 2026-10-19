@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.compose.material3.FloatingActionButton
+import android.os.Build
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.PowerManager
@@ -90,6 +92,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -185,11 +188,11 @@ private fun AppHeader() {
                 .border(1.dp, Color(0xFF3A2A1F), shape)
                 // liseré orange à gauche
                 .drawBehind { drawRect(XmrOrange, size = Size(4.dp.toPx(), size.height)) }
-                .padding(start = 16.dp, end = 12.dp, top = 18.dp, bottom = 18.dp),
+                .padding(start = 16.dp, end = 12.dp, top = 24.dp, bottom = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                Modifier.size(60.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFF1E1E1E)),
+                Modifier.size(72.dp).clip(RoundedCornerShape(19.dp)).background(Color(0xFF1E1E1E)),
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
@@ -205,19 +208,20 @@ private fun AppHeader() {
                         append("Easynode")
                         withStyle(SpanStyle(color = XmrOrange)) { append("Droid") }
                     },
-                    fontSize = 28.sp,
+                    // 32 sur un écran courant, réduit sur les petits écrans pour ne jamais couper le nom
+                    fontSize = if (LocalConfiguration.current.screenWidthDp >= 400) 32.sp else 28.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height(8.dp))
                 // Ligne 2 : badge de version puis sous-titre
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         "v${BuildConfig.MONERO_VERSION}",
                         fontFamily = FontFamily.Monospace,
-                        fontSize = 11.sp,
+                        fontSize = 12.sp,
                         color = XmrOrange,
                         maxLines = 1,
                         modifier = Modifier
@@ -227,7 +231,7 @@ private fun AppHeader() {
                     Spacer(Modifier.width(8.dp))
                     Text(
                         stringResource(R.string.header_subtitle),
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         color = Color(0xFFA0A0A0),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -659,14 +663,22 @@ private fun OnionInfo() {
 
 @Composable
 fun LogScreen() {
+    val ctx = LocalContext.current
     val lines by NodeState.log.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     LaunchedEffect(lines.size, lines.lastOrNull()) {
         if (lines.isNotEmpty()) listState.scrollToItem(lines.lastIndex)
     }
+    val chooserTitle = stringResource(R.string.log_share_title)
     if (lines.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Hint(stringResource(R.string.log_empty)) }
-    } else LazyColumn(state = listState, modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp)) {
+    } else Box(Modifier.fillMaxSize()) {
+    LazyColumn(
+        state = listState,
+        modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp),
+        // place en bas pour que le bouton ne cache pas la dernière ligne
+        contentPadding = PaddingValues(bottom = 88.dp),
+    ) {
         itemsIndexed(lines) { _, line ->
             Text(
                 line,
@@ -682,7 +694,50 @@ fun LogScreen() {
             )
         }
     }
+    FloatingActionButton(
+        onClick = {
+            val send = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "EasynodeDroid log")
+                putExtra(Intent.EXTRA_TEXT, shareableLog(ctx, lines))
+            }
+            ctx.startActivity(Intent.createChooser(send, chooserTitle))
+        },
+        containerColor = XmrOrange,
+        contentColor = Color.White,
+        modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
+    ) {
+        Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.log_share))
+    }
+    }
 }
+
+/**
+ * Journal à partager : en-tête de diagnostic + lignes, avec l'adresse .onion
+ * et les adresses IP masquées (le journal affiché dans l'app n'est pas modifié).
+ */
+private fun shareableLog(ctx: Context, lines: List<String>): String {
+    val s = SettingsStore.load(ctx)
+    fun onOff(b: Boolean) = if (b) "on" else "off"
+    val header = buildString {
+        appendLine("=== EasynodeDroid ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) ===")
+        appendLine("monerod: ${BuildConfig.MONERO_VERSION}")
+        appendLine("Android: ${Build.VERSION.RELEASE} (SDK ${Build.VERSION.SDK_INT}) · ${Build.MANUFACTURER} ${Build.MODEL}")
+        appendLine("Tor: ${onOff(s.torTx)} · RPC LAN: ${onOff(s.rpcLan)} · RPC auth: ${onOff(s.rpcLogin)} · storage: ${if (s.storageIndex == 0) "internal" else "SD #${s.storageIndex}"} · ban list: ${onOff(s.useBanList)}")
+        appendLine("=".repeat(40))
+    }
+    return header + lines.joinToString("\n") { maskPrivate(it) }
+}
+
+private val ONION_RE = Regex("""\b[a-z2-7]{16,56}\.onion\b""")
+private val IPV4_RE = Regex("""\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\b""")
+
+/** Masque l'adresse .onion et les adresses IP (garde 127.x et les numéros de version 0.x). */
+private fun maskPrivate(line: String): String =
+    IPV4_RE.replace(ONION_RE.replace(line, "[onion]")) { m ->
+        val a = m.groupValues[1]
+        if (a == "0" || a == "127") m.value else "$a.${m.groupValues[2]}.x.x"
+    }
 
 // ── Onglet Wallet ────────────────────────────────────────────────────────────
 
