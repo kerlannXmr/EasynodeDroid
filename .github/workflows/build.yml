@@ -69,14 +69,19 @@ jobs:
 
       # Uniquement quand on clique sur "Run workflow" : c'est ce qui prévient
       # les utilisateurs. Un simple envoi de fichiers = version de test.
+      # Numéro sur 4 chiffres (r0026) : GitHub trie les versions dans le bon ordre
+      - name: Nom de la version
+        if: github.event_name == 'workflow_dispatch'
+        run: printf 'RELEASE_TAG=r%04d\n' "$GITHUB_RUN_NUMBER" >> "$GITHUB_ENV"
+
       - name: Publier la version pour les utilisateurs
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: r${{ github.run_number }}
-          name: EasynodeDroid r${{ github.run_number }} · monerod ${{ env.MONERO_VERSION }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: EasynodeDroid ${{ env.RELEASE_TAG }} · monerod ${{ env.MONERO_VERSION }}
           body: |
-            **EasynodeDroid r${{ github.run_number }}** avec monerod **${{ env.MONERO_VERSION }}** (vérifié GPG + SHA256).
+            **EasynodeDroid ${{ env.RELEASE_TAG }}** avec monerod **${{ env.MONERO_VERSION }}** (vérifié GPG + SHA256).
 
             Installation : téléchargez le fichier `.apk` ci-dessous sur votre téléphone et ouvrez-le.
             Mise à jour : installez-le **par-dessus** l'ancienne version, sans désinstaller (la blockchain est conservée).
