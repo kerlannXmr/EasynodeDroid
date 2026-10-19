@@ -36,7 +36,7 @@
     <string name="set_language">Langue</string>
     <string name="lang_system">Langue du téléphone</string>
     <string name="settings_running_hint">Arrêtez le nœud pour modifier les réglages.</string>
-    <string name="type_pruned">Élaguée (~95 Go)</string>
+    <string name="type_pruned">Élaguée (~115 Go)</string>
     <string name="set_storage">Emplacement de stockage</string>
     <string name="storage_internal">Mémoire interne</string>
     <string name="storage_sd">Carte SD</string>
