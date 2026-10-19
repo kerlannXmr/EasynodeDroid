@@ -75,12 +75,12 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --stacktrace
-          cp app/build/outputs/apk/release/app-release.apk "EasynodeDroid-monerod-${MONERO_VERSION}.apk"
+          cp app/build/outputs/apk/release/app-release.apk "EasynodeDroid-${APP_VERSION}.apk"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: EasynodeDroid-monerod-${{ env.MONERO_VERSION }}
-          path: EasynodeDroid-monerod-*.apk
+          name: EasynodeDroid-${{ env.APP_VERSION }}
+          path: EasynodeDroid-*.apk
 
       # Uniquement quand on clique sur "Run workflow" : c'est ce qui prévient
       # les utilisateurs. Un simple envoi de fichiers = version de test.
@@ -101,5 +101,5 @@ jobs:
 
             Installation : téléchargez le fichier `.apk` ci-dessous sur votre téléphone et ouvrez-le.
             Mise à jour : installez-le **par-dessus** l'ancienne version, sans désinstaller (la blockchain est conservée).
-          files: EasynodeDroid-monerod-*.apk
+          files: EasynodeDroid-*.apk
           make_latest: true
