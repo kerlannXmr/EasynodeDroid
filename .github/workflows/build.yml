@@ -36,6 +36,21 @@ jobs:
           echo "Version de monerod : $V"
           echo "MONERO_VERSION=$V" >> "$GITHUB_ENV"
 
+      # Numéro lisible : 1.0.0.1, 1.0.0.2… (+1 à chaque publication "Run workflow").
+      # On lit le numéro de la dernière version publiée ; une version de test
+      # (simple envoi de fichiers) prend le numéro suivant suivi de "-test".
+      - name: Numéro de version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          LAST=$(gh release view --repo "$GITHUB_REPOSITORY" --json name -q .name 2>/dev/null || true)
+          N=$(printf '%s' "$LAST" | grep -oE '1\.0\.0\.[0-9]+' | head -1 | awk -F. '{print $4}')
+          N=$(( ${N:-0} + 1 ))
+          V="1.0.0.$N"
+          [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] || V="$V-test"
+          echo "Version de l'application : $V"
+          echo "APP_VERSION=$V" >> "$GITHUB_ENV"
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -69,7 +84,8 @@ jobs:
 
       # Uniquement quand on clique sur "Run workflow" : c'est ce qui prévient
       # les utilisateurs. Un simple envoi de fichiers = version de test.
-      # Numéro sur 4 chiffres (r0026) : GitHub trie les versions dans le bon ordre
+      # Étiquette technique sur 4 chiffres (r0036…) : GitHub trie les versions dans le bon ordre
+      # et les applications déjà installées reconnaissent ce format pour se mettre à jour.
       - name: Nom de la version
         if: github.event_name == 'workflow_dispatch'
         run: printf 'RELEASE_TAG=r%04d\n' "$GITHUB_RUN_NUMBER" >> "$GITHUB_ENV"
@@ -79,9 +95,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
-          name: EasynodeDroid ${{ env.RELEASE_TAG }} · monerod ${{ env.MONERO_VERSION }}
+          name: EasynodeDroid ${{ env.APP_VERSION }} · monerod ${{ env.MONERO_VERSION }}
           body: |
-            **EasynodeDroid ${{ env.RELEASE_TAG }}** avec monerod **${{ env.MONERO_VERSION }}** (vérifié GPG + SHA256).
+            **EasynodeDroid ${{ env.APP_VERSION }}** avec monerod **${{ env.MONERO_VERSION }}** (vérifié GPG + SHA256).
 
             Installation : téléchargez le fichier `.apk` ci-dessous sur votre téléphone et ouvrez-le.
             Mise à jour : installez-le **par-dessus** l'ancienne version, sans désinstaller (la blockchain est conservée).
