@@ -6,7 +6,8 @@
 
 <p align="center">
   <b>Run your own Monero node on your Android phone</b><br>
-  Pruned node · Built-in Tor (.onion) · Verified monerod · Self-updating
+  Pruned node · Built-in Tor  + onion address  · Verified monerod · Self-updating .<br> 
+  IP Bannlist . Blockchain on SDcard . Wallet ready . Multiling .
 </p>
 
 <p align="center">
@@ -31,7 +32,7 @@
 ## Features
 
 - **Monero node on your phone** – runs the official `monerod` directly on Android, no root, no PC needed.
-- **Pruned blockchain** – about 95 GB instead of 230 GB, while still verifying every block.
+- **Pruned blockchain** – about 115 GB instead of 250 GB, while still verifying every block.
 - **Verified binary** – each release embeds the official `monerod` for Android ARM64, checked against the **GPG-signed** `hashes.txt` of the Monero Project (SHA-256) before the APK is built.
 - **One-tap start / stop** – runs as a foreground service, with sync progress, height and peers in a notification.
 - **Built-in Tor** – no Orbot needed. Gives your node a **.onion address** for your wallets and broadcasts your transactions over Tor.
@@ -73,7 +74,7 @@
 |---|---|
 | **Android** | 8.0 or newer |
 | **Processor** | ARM64 (arm64-v8a), almost every phone since 2017 |
-| **Storage** | ~95 GB free for the pruned blockchain, plus room to grow (128 GB SD card or more recommended) |
+| **Storage** | ~115 GB free for the pruned blockchain, plus room to grow (128 GB SD card or more recommended) |
 | **RAM** | 3 GB or more recommended |
 | **Network** | Wi-Fi strongly recommended: the first sync downloads tens of GB |
 
