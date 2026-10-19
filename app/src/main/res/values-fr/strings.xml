@@ -19,7 +19,7 @@
     <string name="label_height">Hauteur</string>
     <string name="label_peers">Pairs (entrants / sortants)</string>
     <string name="label_db">Base de données</string>
-    <string name="label_version">Monero CLI</string>
+    <string name="label_version">Monero</string>
     <string name="label_storage">Stockage</string>
     <string name="label_type">Blockchain</string>
     <string name="free_space">Libre : %1$s</string>
