@@ -137,7 +137,7 @@ Works with Cake Wallet, Feather, Monerujo, Monero GUI and any wallet that accept
 | Where is the wallet? | Address | Setting needed |
 |---|---|---|
 | On the same phone | `127.0.0.1:18081` | – |
-| On another device, same Wi-Fi | `<phone IP>:18081` | **Open RPC to the local network** |
+| On another device, same Wi-Fi | `<phone IP>:18089` | **Open RPC to the local network** |
 | Anywhere, through Tor | `<your address>.onion:18089` | **Tor** (and Tor enabled in the wallet) |
 
 If **RPC authentication** is enabled, enter the same username and password in the wallet.
@@ -180,8 +180,8 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 | Port | Purpose |
 |---|---|
 | `18080` | P2P (Monero network). Forward it on your router to accept incoming peers (usually impossible on mobile networks) |
-| `18081` | Wallet RPC (local, or local network when enabled) |
-| `18089` | Restricted RPC reachable only through the .onion address |
+| `18081` | Full RPC, on the phone only (`127.0.0.1`): the app and a wallet on the same phone |
+| `18089` | Restricted RPC: other devices on your Wi-Fi (when enabled) and the .onion address |
 
 ---
 
@@ -206,7 +206,7 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 
 ## Security
 
-- RPC listens on `127.0.0.1` only, unless you open it to the local network, in which case **restricted RPC** is enforced.
+- Full RPC listens on `127.0.0.1` only. Other devices (local network or .onion) only get **restricted RPC**, on port 18089.
 - The .onion address only gives access to restricted RPC.
 - The app holds **no wallet and no keys**: it only runs the node.
 - `monerod` is the official binary, verified with the Monero Project's GPG signatures at build time.

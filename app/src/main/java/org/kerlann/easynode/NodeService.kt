@@ -41,6 +41,8 @@ class NodeService : Service() {
         const val ACTION_START = "org.kerlann.easynode.START"
         const val ACTION_STOP = "org.kerlann.easynode.STOP"
         const val RPC_PORT = 18081
+        /** RPC restreint : wallets du réseau local et adresse .onion */
+        const val RESTRICTED_PORT = 18089
         const val P2P_PORT = 18080
         private const val CHANNEL_ID = "node"
         private const val NOTIF_ID = 1
@@ -201,10 +203,16 @@ class NodeService : Service() {
             "--in-peers", if (torSocks != null) "8" else "32",
             "--disable-dns-checkpoints",
         )
-        if (s.rpcLan) {
-            a += listOf("--rpc-bind-ip", "0.0.0.0", "--confirm-external-bind", "--restricted-rpc")
-        } else {
-            a += listOf("--rpc-bind-ip", "127.0.0.1")
+        // RPC complet sur 127.0.0.1 uniquement (l'app et un wallet sur ce téléphone).
+        // Le RPC restreint masque le nombre de pairs, la version, etc. : l'app ne doit pas l'utiliser.
+        a += listOf("--rpc-bind-ip", "127.0.0.1")
+        // RPC restreint sur le port 18089 : réseau local (0.0.0.0) et/ou adresse .onion (127.0.0.1)
+        if (s.rpcLan || torSocks != null) {
+            a += listOf(
+                "--rpc-restricted-bind-ip", if (s.rpcLan) "0.0.0.0" else "127.0.0.1",
+                "--rpc-restricted-bind-port", RESTRICTED_PORT.toString(),
+            )
+            if (s.rpcLan) a += "--confirm-external-bind"
         }
         s.rpcCredentials?.let { (u, p) -> a += listOf("--rpc-login", "$u:$p") }
         // Toujours élaguée : une base complète existante est élaguée par monerod au démarrage
@@ -214,8 +222,6 @@ class NodeService : Service() {
             a += listOf("--limit-rate-up", "512") // ko/s
             // Transactions diffusées via Tor
             a += listOf("--tx-proxy", "tor,127.0.0.1:$torSocks,16")
-            // RPC restreint dédié, accessible uniquement via l'adresse .onion
-            a += listOf("--rpc-restricted-bind-ip", "127.0.0.1", "--rpc-restricted-bind-port", TorManager.ONION_PORT.toString())
         }
         return a
     }

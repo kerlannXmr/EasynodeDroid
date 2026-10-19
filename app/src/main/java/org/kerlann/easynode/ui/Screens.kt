@@ -718,7 +718,7 @@ fun InfoScreen() {
             when {
                 !s.rpcLan -> Hint(stringResource(R.string.info_lan_off), Warn)
                 ip == null -> Hint(stringResource(R.string.info_no_ip), Warn)
-                else -> CopyRow("$ip:${NodeService.RPC_PORT}")
+                else -> CopyRow("$ip:${NodeService.RESTRICTED_PORT}")
             }
             HorizontalDivider()
             val cred = s.rpcCredentials

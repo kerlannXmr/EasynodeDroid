@@ -20,7 +20,7 @@ import kotlin.coroutines.resume
  */
 object TorManager {
     /** Port du RPC restreint exposé sur l'adresse .onion (port standard des nœuds publics). */
-    const val ONION_PORT = 18089
+    const val ONION_PORT = NodeService.RESTRICTED_PORT
 
     private const val PREFS = "easynode"
     private const val KEY_ONION = "onionAddress"

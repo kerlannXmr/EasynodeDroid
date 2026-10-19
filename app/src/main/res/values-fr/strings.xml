@@ -44,7 +44,7 @@
     <string name="set_banlist">Bloquer les nœuds espions (liste d’IP bannies)</string>
     <string name="set_banlist_hint">Liste Boog900, téléchargée à chaque démarrage et chargée par monerod.</string>
     <string name="set_rpc_lan">Ouvrir le RPC au réseau local</string>
-    <string name="set_rpc_lan_hint">Permet à un wallet d’un autre appareil de votre Wi-Fi d’utiliser ce nœud. RPC restreint imposé.</string>
+    <string name="set_rpc_lan_hint">Permet à un wallet d’un autre appareil de votre Wi-Fi d’utiliser ce nœud, sur le port 18089 (RPC restreint).</string>
     <string name="set_rpc_login">Authentification RPC</string>
     <string name="set_rpc_user">Nom d’utilisateur</string>
     <string name="set_rpc_pass">Mot de passe (6 caractères min.)</string>

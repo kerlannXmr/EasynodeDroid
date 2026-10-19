@@ -46,7 +46,7 @@
     <string name="set_banlist">Block spy nodes (IP ban list)</string>
     <string name="set_banlist_hint">Boog900 list, downloaded at each start and loaded by monerod.</string>
     <string name="set_rpc_lan">Open RPC to the local network</string>
-    <string name="set_rpc_lan_hint">Lets a wallet on another device of your Wi-Fi use this node. Restricted RPC is enforced.</string>
+    <string name="set_rpc_lan_hint">Lets a wallet on another device of your Wi-Fi use this node, on port 18089 (restricted RPC).</string>
     <string name="set_rpc_login">RPC authentication</string>
     <string name="set_rpc_user">Username</string>
     <string name="set_rpc_pass">Password (min. 6 characters)</string>
