@@ -21,7 +21,7 @@
     <string name="label_height">Height</string>
     <string name="label_peers">Peers (in / out)</string>
     <string name="label_db">Database</string>
-    <string name="label_version">monerod version</string>
+    <string name="label_version">monero CLI</string>
     <string name="label_storage">Storage</string>
     <string name="label_type">Blockchain</string>
     <string name="free_space">Free: %1$s</string>
