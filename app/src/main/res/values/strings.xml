@@ -126,4 +126,6 @@
     <string name="log_tor_ready">Tor ready (SOCKS port %1$d)</string>
     <string name="log_tor_onion">Onion address: %1$s:%2$d</string>
     <string name="err_tor">Tor did not start. Check the connection, or disable Tor in Settings.</string>
+    <string name="pass_show">👁 Show</string>
+    <string name="pass_hide">Hide</string>
 </resources>

@@ -17,7 +17,8 @@ android {
         targetSdk = 35
         // Le numéro augmente à chaque build GitHub : chaque APK est une mise à jour.
         versionCode = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
-        versionName = "1.1.0"
+        // Numéro lisible 1.0.0.N, calculé par GitHub Actions (étape "Numéro de version")
+        versionName = System.getenv("APP_VERSION") ?: "dev"
         // Garder cet identifiant : le changer = autre application = blockchain perdue
         // monerod officiel n'existe que pour ARM64 (monero-android-armv8)
         ndk { abiFilters += "arm64-v8a" }

@@ -74,6 +74,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.compose.LifecycleEventEffect
+import androidx.lifecycle.Lifecycle
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -703,6 +706,34 @@ private fun CopyRow(value: String, small: Boolean = false) {
     }
 }
 
+/**
+ * Mot de passe masqué (••••••••) : un toucher l'affiche, un second le masque.
+ * Il se re-masque tout seul quand on change d'onglet ou qu'on quitte l'app.
+ * Le bouton copier fonctionne même masqué.
+ */
+@Composable
+private fun PasswordRow(password: String) {
+    var shown by remember { mutableStateOf(false) }
+    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) { shown = false }
+    val clipboard = LocalClipboardManager.current
+    val ctx = LocalContext.current
+    val masked = "•".repeat(8)
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            stringResource(R.string.info_pass, if (shown) password else masked),
+            fontFamily = FontFamily.Monospace,
+            modifier = Modifier.weight(1f).clickable { shown = !shown },
+        )
+        TextButton(onClick = { shown = !shown }) {
+            Text(stringResource(if (shown) R.string.pass_hide else R.string.pass_show), fontSize = 13.sp)
+        }
+        TextButton(onClick = {
+            clipboard.setText(AnnotatedString(password))
+            Toast.makeText(ctx, R.string.copied, Toast.LENGTH_SHORT).show()
+        }) { Text("⧉") }
+    }
+}
+
 @Composable
 fun InfoScreen() {
     val ctx = LocalContext.current
@@ -724,7 +755,7 @@ fun InfoScreen() {
             val cred = s.rpcCredentials
             if (cred != null) {
                 Text(stringResource(R.string.info_user, cred.first), fontFamily = FontFamily.Monospace)
-                Text(stringResource(R.string.info_pass, cred.second), fontFamily = FontFamily.Monospace)
+                PasswordRow(cred.second)
             } else {
                 Hint(stringResource(R.string.info_noauth))
             }
