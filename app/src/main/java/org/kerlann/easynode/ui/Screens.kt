@@ -662,7 +662,7 @@ fun SettingsScreen() {
             border = BorderStroke(1.dp, BugPurple),
             modifier = Modifier.fillMaxWidth(),
         ) { Text("🐞 " + stringResource(R.string.bug_button)) }
-        Hint(stringResource(R.string.bug_hint))
+        
 
         Spacer(Modifier.height(12.dp))
         HorizontalDivider()
