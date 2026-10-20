@@ -661,7 +661,7 @@ fun SettingsScreen() {
             colors = ButtonDefaults.outlinedButtonColors(contentColor = BugPurple),
             border = BorderStroke(1.dp, BugPurple),
             modifier = Modifier.fillMaxWidth(),
-        ) { Text(" " + stringResource(R.string.bug_button)) }
+        ) { Text(stringResource(R.string.bug_button)) }
         
 
         Spacer(Modifier.height(12.dp))
@@ -672,6 +672,7 @@ fun SettingsScreen() {
             onClick = { confirmDelete = true },
             enabled = editable,
             colors = ButtonDefaults.outlinedButtonColors(contentColor = Err),
+            border = BorderStroke(1.dp, if (editable) Err else Err.copy(alpha = 0.38f)),
             modifier = Modifier.fillMaxWidth(),
         ) { Text(stringResource(R.string.set_delete)) }
 
