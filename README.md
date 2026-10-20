@@ -227,6 +227,11 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 
 - ⭐ **Star** this repository
 - **XMR donations** (Cake Wallet address): `kerlann.xmr`
+- **XMR donations** (any wallet):
+
+```
+88YbpCfGuA5Ez2qVNWEYHtc6qzFS4uLRaQ5iydCGoR2p3XVQfVkmmPDHjyw5tpDUnJCQL7QjdtxAS8nzC4x6VgH8Vs3Kjwk
+```
 
 ---
 

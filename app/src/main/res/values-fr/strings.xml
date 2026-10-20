@@ -128,4 +128,12 @@
     <string name="pass_hide">Masquer</string>
     <string name="log_share">Partager le journal</string>
     <string name="log_share_title">Partager le journal d’EasynodeDroid</string>
+    <string name="donate_address_label">Adresse XMR pour les dons</string>
+    <string name="donate_button">Faire un don avec mon wallet</string>
+    <string name="donate_copy">Copier</string>
+    <string name="donate_share">Partager</string>
+    <string name="donate_no_wallet">Aucun wallet Monero trouvé sur ce téléphone : l’adresse a été copiée.</string>
+    <string name="donate_share_title">Partager l’adresse de dons</string>
+    <string name="donate_share_text">Adresse XMR pour soutenir EasynodeDroid : %1$s</string>
+    <string name="donate_hint">Ouvre le wallet Monero installé sur ce téléphone (Cake Wallet, Monerujo…) avec l’adresse déjà remplie. Vérifiez qu’elle commence et finit comme l’adresse ci-dessus. Touchez l’adresse pour la copier.</string>
 </resources>

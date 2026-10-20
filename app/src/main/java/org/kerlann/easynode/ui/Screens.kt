@@ -2,6 +2,7 @@ package org.kerlann.easynode.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import androidx.compose.material3.FloatingActionButton
@@ -789,6 +790,82 @@ private fun PasswordRow(password: String) {
     }
 }
 
+/** Sous-adresse XMR dédiée aux dons (vérifiée : réseau principal, somme de contrôle OK). */
+private const val DONATION_ADDRESS =
+    "88YbpCfGuA5Ez2qVNWEYHtc6qzFS4uLRaQ5iydCGoR2p3XVQfVkmmPDHjyw5tpDUnJCQL7QjdtxAS8nzC4x6VgH8Vs3Kjwk"
+
+/**
+ * Dons : ouvre le wallet Monero du téléphone (lien monero:) avec l'adresse remplie ;
+ * si aucun wallet n'est installé, l'adresse est copiée. Boutons copier et partager en plus.
+ */
+@Composable
+private fun DonationBox() {
+    val ctx = LocalContext.current
+    val clipboard = LocalClipboardManager.current
+    fun copy(toastRes: Int) {
+        clipboard.setText(AnnotatedString(DONATION_ADDRESS))
+        Toast.makeText(ctx, toastRes, Toast.LENGTH_LONG).show()
+    }
+    val shareTitle = stringResource(R.string.donate_share_title)
+    val shareText = stringResource(R.string.donate_share_text, DONATION_ADDRESS)
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(stringResource(R.string.donate_address_label), fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+        // Adresse abrégée pour vérifier début et fin dans le wallet ; un toucher copie l'adresse complète
+        Row(
+            Modifier.fillMaxWidth().clickable { copy(R.string.copied) },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                DONATION_ADDRESS.take(8) + "…" + DONATION_ADDRESS.takeLast(8),
+                fontFamily = FontFamily.Monospace,
+                fontSize = 14.sp,
+                color = XmrOrange,
+                modifier = Modifier.weight(1f),
+            )
+            Text("⧉", color = XmrOrange, fontSize = 16.sp)
+        }
+        Button(
+            onClick = {
+                val uri = Uri.parse("monero:$DONATION_ADDRESS?tx_description=EasynodeDroid")
+                try {
+                    ctx.startActivity(Intent(Intent.ACTION_VIEW, uri))
+                } catch (e: ActivityNotFoundException) {
+                    copy(R.string.donate_no_wallet)
+                }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = XmrOrange, contentColor = Color.White),
+            modifier = Modifier.fillMaxWidth(),
+        ) { Text("♥ " + stringResource(R.string.donate_button)) }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedButton(onClick = { copy(R.string.copied) }, modifier = Modifier.weight(1f)) {
+                Text("⧉ " + stringResource(R.string.donate_copy), fontSize = 13.sp)
+            }
+            OutlinedButton(
+                onClick = {
+                    val send = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, shareText)
+                    }
+                    ctx.startActivity(Intent.createChooser(send, shareTitle))
+                },
+                modifier = Modifier.weight(1f),
+            ) {
+                Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(16.dp))
+                Spacer(Modifier.width(6.dp))
+                Text(stringResource(R.string.donate_share), fontSize = 13.sp)
+            }
+        }
+        Hint(stringResource(R.string.donate_hint))
+    }
+}
+
 @Composable
 fun InfoScreen() {
     val ctx = LocalContext.current
@@ -820,6 +897,9 @@ fun InfoScreen() {
         }
         Section(stringResource(R.string.info_steps_title)) { Text(stringResource(R.string.info_steps), lineHeight = 22.sp) }
         Section(stringResource(R.string.info_p2p_title)) { Hint(stringResource(R.string.info_p2p)) }
-        Section(stringResource(R.string.info_about_title)) { Hint(stringResource(R.string.info_about)) }
+        Section(stringResource(R.string.info_about_title)) {
+            Hint(stringResource(R.string.info_about))
+            DonationBox()
+        }
     }
 }
