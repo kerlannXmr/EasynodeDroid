@@ -57,6 +57,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -119,6 +120,7 @@ import org.kerlann.easynode.SettingsStore
 import org.kerlann.easynode.Storage
 import org.kerlann.easynode.TorManager
 import org.kerlann.easynode.UpdateChecker
+import org.kerlann.easynode.CheckStatus
 import org.kerlann.easynode.UpdatePhase
 import org.kerlann.easynode.Updater
 import org.kerlann.easynode.percent
@@ -488,6 +490,46 @@ private fun GithubLinks() {
             Spacer(Modifier.width(8.dp))
             Text(stringResource(R.string.link_share), fontSize = 13.sp)
         }
+        CheckUpdateButton()
+    }
+}
+
+/** Bouton « Mise à jour » : vérifie tout de suite ; installe si une version existe, sinon « Pas de mise à jour ». */
+@Composable
+private fun CheckUpdateButton() {
+    val ctx = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var checking by remember { mutableStateOf(false) }
+    OutlinedButton(
+        onClick = {
+            if (checking || Updater.busy) return@OutlinedButton
+            checking = true
+            scope.launch {
+                val r = UpdateChecker.checkNow()
+                checking = false
+                when (r.status) {
+                    CheckStatus.AVAILABLE -> {
+                        val info = r.info ?: return@launch
+                        Toast.makeText(ctx, ctx.getString(R.string.check_found, info.name), Toast.LENGTH_LONG).show()
+                        Updater.start(ctx, info, interactive = true)
+                    }
+                    CheckStatus.UP_TO_DATE ->
+                        Toast.makeText(ctx, ctx.getString(R.string.check_none, BuildConfig.VERSION_NAME), Toast.LENGTH_LONG).show()
+                    CheckStatus.ERROR ->
+                        Toast.makeText(ctx, R.string.check_error, Toast.LENGTH_LONG).show()
+                }
+            }
+        },
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
+        modifier = Modifier.padding(bottom = 6.dp),
+    ) {
+        if (checking) {
+            CircularProgressIndicator(Modifier.size(14.dp), strokeWidth = 2.dp, color = XmrOrange)
+        } else {
+            Text("⟳", color = XmrOrange, fontSize = 15.sp)
+        }
+        Spacer(Modifier.width(8.dp))
+        Text(stringResource(R.string.check_button), fontSize = 13.sp)
     }
 }
 

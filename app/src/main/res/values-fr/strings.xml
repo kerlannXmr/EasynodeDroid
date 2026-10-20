@@ -136,4 +136,8 @@
     <string name="donate_share_title">Partager l’adresse de dons</string>
     <string name="donate_share_text">Adresse XMR pour soutenir EasynodeDroid : %1$s</string>
     <string name="donate_hint">Ouvre le wallet Monero installé sur ce téléphone (Cake Wallet, Monerujo…) avec l’adresse déjà remplie. Vérifiez qu’elle commence et finit comme l’adresse ci-dessus. Touchez l’adresse pour la copier.</string>
+    <string name="check_button">Mise à jour</string>
+    <string name="check_found">Nouvelle version trouvée : %1$s. Téléchargement…</string>
+    <string name="check_none">Pas de mise à jour : vous avez la dernière version (%1$s).</string>
+    <string name="check_error">Impossible de vérifier. Vérifiez la connexion.</string>
 </resources>
