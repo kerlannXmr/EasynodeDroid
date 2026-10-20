@@ -55,7 +55,7 @@
     <string name="set_metered_hint">La synchronisation télécharge des dizaines de Go.</string>
     <string name="set_battery">Désactiver l’optimisation de batterie</string>
     <string name="set_battery_hint">Évite qu’Android arrête le nœud quand l’écran est éteint.</string>
-    <string name="set_delete">⚠Supprimer la blockchain⚠</string>
+    <string name="set_delete"> ⚠ Supprimer la blockchain ⚠ </string>
     <string name="delete_confirm_title">Supprimer la blockchain ?</string>
     <string name="delete_confirm_text">Le dossier %1$s sera effacé. Il faudra tout resynchroniser.</string>
     <string name="btn_cancel">Annuler</string>
