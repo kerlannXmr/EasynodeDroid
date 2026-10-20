@@ -823,7 +823,7 @@ private fun diagnosticHeader(ctx: Context): String {
     }
 }
 
-private const val BUG_EMAIL = "github@kerlann.org"
+private const val BUG_EMAIL = "easynodedroid@kerlann.org"
 private val BugPurple = Color(0xFFB388FF)
 
 /**
