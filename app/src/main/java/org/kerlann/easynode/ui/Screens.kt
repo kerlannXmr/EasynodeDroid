@@ -646,6 +646,9 @@ fun SettingsScreen() {
             }
         }
 
+        HorizontalDivider()
+        Spacer(Modifier.height(12.dp))
+        
         // Signaler un bug (violet), bien séparé du bouton rouge « Supprimer »
         val clipboard = LocalClipboardManager.current
         OutlinedButton(
