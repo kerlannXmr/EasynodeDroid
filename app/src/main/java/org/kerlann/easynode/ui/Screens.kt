@@ -537,6 +537,19 @@ private fun CheckUpdateButton() {
 // ── Onglet Réglages ──────────────────────────────────────────────────────────
 
 @SuppressLint("BatteryLife")
+/** Une ligne du cadre des versions : nom à gauche, numéro en orange à droite. */
+@Composable
+private fun VersionRow(label: String, value: String) {
+    Row(
+        Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(label, fontSize = 14.sp, color = Color(0xFFC9C9C9))
+        Text(value, fontSize = 15.sp, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold, color = XmrOrange)
+    }
+}
+
 @Composable
 fun SettingsScreen() {
     val ctx = LocalContext.current
@@ -676,7 +689,18 @@ fun SettingsScreen() {
             modifier = Modifier.fillMaxWidth(),
         ) { Text(stringResource(R.string.set_delete)) }
 
-        Hint("monerod v${BuildConfig.MONERO_VERSION} · EasynodeDroid ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
+        // Versions dans un cadre gris anthracite, une par ligne
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .background(Color(0xFF262626))
+                .border(1.dp, Color(0xFF444444), RoundedCornerShape(14.dp))
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+        ) {
+            VersionRow("Monero", "v${BuildConfig.MONERO_VERSION}")
+            VersionRow("EasynodeDroid", BuildConfig.VERSION_NAME)
+        }
     }
 
     if (confirmDelete) {
