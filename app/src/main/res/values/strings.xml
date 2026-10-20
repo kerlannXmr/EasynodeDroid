@@ -57,7 +57,7 @@
     <string name="set_metered_hint">The sync downloads tens of GB.</string>
     <string name="set_battery">Disable battery optimization</string>
     <string name="set_battery_hint">Prevents Android from killing the node when the screen is off.</string>
-    <string name="set_delete">Delete blockchain data</string>
+    <string name="set_delete">⚠Delete blockchain data⚠</string>
     <string name="delete_confirm_title">Delete the blockchain?</string>
     <string name="delete_confirm_text">The folder %1$s will be erased. A full resync will be needed.</string>
     <string name="btn_cancel">Cancel</string>
