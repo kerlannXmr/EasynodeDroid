@@ -141,7 +141,7 @@
     <string name="check_none">Pas de mise à jour : vous avez la dernière version (%1$s).</string>
     <string name="check_error">Impossible de vérifier. Vérifiez la connexion.</string>
     <string name="bug_button">Signaler un bug</string>
-    <string name="bug_hint"></string>
+    
     <string name="bug_no_mail">Aucune application e-mail trouvée : l’adresse %1$s a été copiée.</string>
     <string name="bug_body_intro">Que s’est-il passé ?\n\n\nComment reproduire le problème (étapes) ?\n</string>
     <string name="bug_body_log">--- Dernières lignes du journal ---</string>
