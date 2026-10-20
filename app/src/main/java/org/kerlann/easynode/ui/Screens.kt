@@ -524,12 +524,12 @@ private fun CheckUpdateButton() {
         modifier = Modifier.padding(bottom = 6.dp),
     ) {
         if (checking) {
-            CircularProgressIndicator(Modifier.size(14.dp), strokeWidth = 2.dp, color = XmrOrange)
+            CircularProgressIndicator(Modifier.size(14.dp), strokeWidth = 2.dp, color = Ok)
         } else {
-            Text("⟳", color = XmrOrange, fontSize = 15.sp)
+            Text("⟳", color = Ok, fontSize = 15.sp)
         }
         Spacer(Modifier.width(8.dp))
-        Text(stringResource(R.string.check_button), fontSize = 13.sp)
+        Text(stringResource(R.string.check_button), color = Ok, fontSize = 13.sp)
     }
 }
 
