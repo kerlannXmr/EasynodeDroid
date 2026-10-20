@@ -661,7 +661,7 @@ fun SettingsScreen() {
             colors = ButtonDefaults.outlinedButtonColors(contentColor = BugPurple),
             border = BorderStroke(1.dp, BugPurple),
             modifier = Modifier.fillMaxWidth(),
-        ) { Text("🐞 " + stringResource(R.string.bug_button)) }
+        ) { Text(" " + stringResource(R.string.bug_button)) }
         
 
         Spacer(Modifier.height(12.dp))
