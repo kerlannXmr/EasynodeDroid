@@ -13,6 +13,7 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.text.format.Formatter
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -645,6 +646,25 @@ fun SettingsScreen() {
             }
         }
 
+        // Signaler un bug (violet), bien séparé du bouton rouge « Supprimer »
+        val clipboard = LocalClipboardManager.current
+        OutlinedButton(
+            onClick = {
+                openBugReport(ctx) {
+                    clipboard.setText(AnnotatedString(BUG_EMAIL))
+                    Toast.makeText(ctx, ctx.getString(R.string.bug_no_mail, BUG_EMAIL), Toast.LENGTH_LONG).show()
+                }
+            },
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = BugPurple),
+            border = BorderStroke(1.dp, BugPurple),
+            modifier = Modifier.fillMaxWidth(),
+        ) { Text("🐞 " + stringResource(R.string.bug_button)) }
+        Hint(stringResource(R.string.bug_hint))
+
+        Spacer(Modifier.height(12.dp))
+        HorizontalDivider()
+        Spacer(Modifier.height(12.dp))
+
         OutlinedButton(
             onClick = { confirmDelete = true },
             enabled = editable,
@@ -759,17 +779,51 @@ fun LogScreen() {
  * Journal à partager : en-tête de diagnostic + lignes, avec l'adresse .onion
  * et les adresses IP masquées (le journal affiché dans l'app n'est pas modifié).
  */
-private fun shareableLog(ctx: Context, lines: List<String>): String {
+private fun shareableLog(ctx: Context, lines: List<String>): String =
+    diagnosticHeader(ctx) + lines.joinToString("\n") { maskPrivate(it) }
+
+/** Résumé de diagnostic : versions, téléphone et réglages principaux (aucune donnée privée). */
+private fun diagnosticHeader(ctx: Context): String {
     val s = SettingsStore.load(ctx)
     fun onOff(b: Boolean) = if (b) "on" else "off"
-    val header = buildString {
+    return buildString {
         appendLine("=== EasynodeDroid ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) ===")
         appendLine("monerod: ${BuildConfig.MONERO_VERSION}")
         appendLine("Android: ${Build.VERSION.RELEASE} (SDK ${Build.VERSION.SDK_INT}) · ${Build.MANUFACTURER} ${Build.MODEL}")
         appendLine("Tor: ${onOff(s.torTx)} · RPC LAN: ${onOff(s.rpcLan)} · RPC auth: ${onOff(s.rpcLogin)} · storage: ${if (s.storageIndex == 0) "internal" else "SD #${s.storageIndex}"} · ban list: ${onOff(s.useBanList)}")
         appendLine("=".repeat(40))
     }
-    return header + lines.joinToString("\n") { maskPrivate(it) }
+}
+
+private const val BUG_EMAIL = "github@kerlann.org"
+private val BugPurple = Color(0xFFB388FF)
+
+/**
+ * Ouvre l'application e-mail avec un rapport de bug prérempli :
+ * objet, questions à compléter, diagnostic et 100 dernières lignes du journal (onion et IP masquées).
+ * Sans application e-mail, l'adresse est copiée.
+ */
+private fun openBugReport(ctx: Context, onNoMailApp: () -> Unit) {
+    val lines = NodeState.log.value.takeLast(100)
+    val body = buildString {
+        appendLine(ctx.getString(R.string.bug_body_intro))
+        appendLine()
+        appendLine()
+        append(diagnosticHeader(ctx))
+        appendLine(ctx.getString(R.string.bug_body_log))
+        append(lines.joinToString("\n") { maskPrivate(it) })
+    }
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:")
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(BUG_EMAIL))
+        putExtra(Intent.EXTRA_SUBJECT, "[EasynodeDroid] Bug report – ${BuildConfig.VERSION_NAME}")
+        putExtra(Intent.EXTRA_TEXT, body)
+    }
+    try {
+        ctx.startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        onNoMailApp()
+    }
 }
 
 private val ONION_RE = Regex("""\b[a-z2-7]{16,56}\.onion\b""")

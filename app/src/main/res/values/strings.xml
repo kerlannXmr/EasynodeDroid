@@ -142,4 +142,9 @@
     <string name="check_found">New version found: %1$s. Downloading…</string>
     <string name="check_none">No update: you have the latest version (%1$s).</string>
     <string name="check_error">Could not check for updates. Check the connection.</string>
+    <string name="bug_button">Report a bug</string>
+    <string name="bug_hint">Opens your email app with a pre-filled report. The .onion address and IP addresses are hidden; you can read and edit everything before sending.</string>
+    <string name="bug_no_mail">No email app found: the address %1$s has been copied.</string>
+    <string name="bug_body_intro">What happened?\n\n\nHow to reproduce it (steps)?\n</string>
+    <string name="bug_body_log">--- Last log lines ---</string>
 </resources>
