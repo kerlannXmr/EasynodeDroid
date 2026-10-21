@@ -15,6 +15,9 @@ import android.text.format.Formatter
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -133,10 +136,12 @@ import java.net.Inet4Address
 
 // ── Squelette ────────────────────────────────────────────────────────────────
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun EasyNodeApp() {
-    var tab by rememberSaveable { mutableIntStateOf(0) }
+    // Onglets glissants : on change d'onglet en glissant le doigt ou en touchant la barre du bas
+    val pagerState = rememberPagerState(pageCount = { 4 })
+    val scope = rememberCoroutineScope()
     val tabs = listOf(
         stringResource(R.string.tab_node) to Icons.Filled.Home,
         stringResource(R.string.tab_settings) to Icons.Filled.Settings,
@@ -149,8 +154,8 @@ fun EasyNodeApp() {
             NavigationBar {
                 tabs.forEachIndexed { i, (label, icon) ->
                     NavigationBarItem(
-                        selected = tab == i,
-                        onClick = { tab = i },
+                        selected = pagerState.currentPage == i,
+                        onClick = { scope.launch { pagerState.animateScrollToPage(i) } },
                         icon = { Icon(icon, contentDescription = label) },
                         label = { Text(label) },
                     )
@@ -158,12 +163,17 @@ fun EasyNodeApp() {
             }
         },
     ) { pad ->
-        Box(Modifier.padding(pad).fillMaxSize()) {
-            when (tab) {
-                0 -> NodeScreen()
-                1 -> SettingsScreen()
-                2 -> LogScreen()
-                else -> InfoScreen()
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.padding(pad).fillMaxSize(),
+        ) { page ->
+            Box(Modifier.fillMaxSize()) {
+                when (page) {
+                    0 -> NodeScreen()
+                    1 -> SettingsScreen()
+                    2 -> LogScreen()
+                    else -> InfoScreen()
+                }
             }
         }
     }
