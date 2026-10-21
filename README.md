@@ -56,7 +56,9 @@
   <tr>
     <td><img src="docs/screenshots/node.jpg" alt="Node screen: synchronized node, height, peers and storage" width="250"></td>
     <td><img src="docs/screenshots/settings.jpg" alt="Settings screen: RPC, ban list and built-in Tor" width="250"></td>
+    <td><img src="docs/screenshots/settings2.jpg" alt="Settings screen: RPC, ban list and built-in Tor" width="250"></td>
     <td><img src="docs/screenshots/log.jpg" alt="Log screen: live monerod output" width="250"></td>
+    <td><img src="docs/screenshots/wallet.jpg" alt="Log screen: live monerod output" width="250"></td>
   </tr>
   <tr>
     <td>Sync status, height, peers, database and storage</td>
