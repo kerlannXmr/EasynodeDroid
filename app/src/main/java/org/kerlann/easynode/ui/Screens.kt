@@ -26,6 +26,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
@@ -273,6 +277,30 @@ private fun KV(key: String, value: String) {
 @Composable
 private fun Hint(text: String, color: Color = Muted) {
     Text(text, color = color, fontSize = 13.sp, lineHeight = 17.sp)
+}
+
+private const val SCRIPT_NAME = "EasyMonerodGui"
+private const val SCRIPT_URL = "https://github.com/kerlannXmr/EasyMonerod/tree/main/gui"
+
+/** Texte « À propos » : le mot EasyMonerodGui devient un lien (souligné) vers le script d'origine. */
+@Composable
+private fun AboutText(text: String) {
+    val start = text.indexOf(SCRIPT_NAME, ignoreCase = true)
+    val annotated = buildAnnotatedString {
+        if (start < 0) {
+            append(text)
+        } else {
+            append(text.substring(0, start))
+            withLink(
+                LinkAnnotation.Url(
+                    SCRIPT_URL,
+                    TextLinkStyles(SpanStyle(color = XmrOrange, textDecoration = TextDecoration.Underline)),
+                )
+            ) { append(text.substring(start, start + SCRIPT_NAME.length)) }
+            append(text.substring(start + SCRIPT_NAME.length))
+        }
+    }
+    Text(annotated, color = Muted, fontSize = 13.sp, lineHeight = 17.sp)
 }
 
 @Composable
@@ -1022,7 +1050,7 @@ fun InfoScreen() {
         Section(stringResource(R.string.info_steps_title)) { Text(stringResource(R.string.info_steps), lineHeight = 22.sp) }
         Section(stringResource(R.string.info_p2p_title)) { Hint(stringResource(R.string.info_p2p)) }
         Section(stringResource(R.string.info_about_title)) {
-            Hint(stringResource(R.string.info_about))
+            AboutText(stringResource(R.string.info_about))
             DonationBox()
         }
     }
