@@ -61,9 +61,7 @@
     <td><img src="docs/screenshots/wallet.jpg" alt="Log screen: live monerod output" width="250"></td>
   </tr>
   <tr>
-    <td>Sync status, height, peers, database and storage</td>
-    <td>RPC, spy-node protection and built-in Tor with .onion address</td>
-    <td>Live <code>monerod</code> output</td>
+    
   </tr>
 </table>
 
