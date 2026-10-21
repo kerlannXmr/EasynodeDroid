@@ -89,7 +89,7 @@
     <string name="info_p2p_title">Port 18080 (incoming peers)</string>
     <string name="info_p2p">To accept incoming peers, forward port 18080 of your router to the phone’s IP. On mobile networks (CGNAT) this is usually impossible; the node still works with outgoing peers only.</string>
     <string name="info_about_title">About</string>
-    <string name="info_about">EasynodeDroid, adapted from kerlann’s EasyMonerod script.\nif you wanna thank me. 👇\nXMR (alias address)=kerlann.xmr</string>
+    <string name="info_about">EasynodeDroid, adapted from kerlann’s EasyMonerodGui script.\nif you wanna thank me. 👇\nXMR (alias address)=kerlann.xmr</string>
     <string name="copied">Copied</string>
     <string name="update_available">New version available</string>
     <string name="update_notif_channel">Updates</string>
