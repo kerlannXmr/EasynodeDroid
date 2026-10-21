@@ -87,7 +87,7 @@
     <string name="info_p2p_title">Port 18080 (pairs entrants)</string>
     <string name="info_p2p">Pour accepter des pairs entrants, redirigez le port 18080 de votre box vers l’IP du téléphone. Sur réseau mobile (CGNAT) c’est généralement impossible ; le nœud fonctionne quand même avec des pairs sortants.</string>
     <string name="info_about_title">À propos</string>
-    <string name="info_about">EasynodeDroid, adapté du script EasyMonerodGui de kerlannXmr.\nPour me remercier.👇\nDons XMR ♥(adresse): kerlann.xmr</string>
+    <string name="info_about">EasynodeDroid, adapté du script EasyMonerodGui de kerlannXmr.\nPour me remercier.👇\nDons XMR (adresse)= kerlann.xmr</string>
     <string name="copied">Copié</string>
     <string name="update_available">Nouvelle version disponible</string>
     <string name="update_notif_channel">Mises à jour</string>
@@ -129,7 +129,7 @@
     <string name="log_share">Partager le journal</string>
     <string name="log_share_title">Partager le journal d’EasynodeDroid</string>
     <string name="donate_address_label">Adresse XMR pour les dons</string>
-    <string name="donate_button">Faire un don avec mon wallet</string>
+    <string name="donate_button">Faire un don avec un wallet</string>
     <string name="donate_copy">Copier</string>
     <string name="donate_share">Partager</string>
     <string name="donate_no_wallet">Aucun wallet Monero trouvé sur ce téléphone : l’adresse a été copiée.</string>
