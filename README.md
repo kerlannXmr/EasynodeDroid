@@ -51,6 +51,7 @@
 <p align="center">
   <img src="docs/screenshots/overview.jpg" alt="EasynodeDroid screens: Node, Settings, Log and Wallet" width="100%">
 </p>
+<p align="center"><img src="docs/screenshots/demo.gif" alt="EasynodeDroid in action" width="300"></p>
 
 ---
 
