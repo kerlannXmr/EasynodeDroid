@@ -30,6 +30,11 @@
 
 ---
 
+> **Want to mine?** [EasynodeDroid Miner](https://github.com/kerlannXmr/EasynodeDroidMiner) is the version of EasynodeDroid with a **Mining** tab (solo mining with the miner built into `monerod`).
+> It is a separate app (`org.kerlann.easynode.miner`): it installs next to EasynodeDroid and has its own blockchain.
+> Only one of the two nodes can run at a time (they use the same ports): stop one before starting the other.
+
+
 ## Features
 
 - **Monero node on your phone** – runs the official `monerod` directly on Android, no root, no PC needed.
