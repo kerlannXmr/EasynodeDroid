@@ -222,8 +222,10 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 ```
 
 ---
+<p align="center">
+<img src="https://github.com/kerlannXmr/EasynodeDroidMiner/blob/main/docs/logo.png" alt="EasynodeDroid Miner logo" width="128" height="128">
+</p>
 
-<img src="https://github.com/kerlannXmr/EasynodeDroid/docs/logo.png" alt="EasynodeDroid Miner logo" width="128" height="128">
 > **Want to mine?** [EasynodeDroid Miner](https://github.com/kerlannXmr/EasynodeDroidMiner) is the version of EasynodeDroid with a **Mining** tab (solo mining with the miner built into `monerod`).
 > It is a separate app (`org.kerlann.easynode.miner`): it installs next to EasynodeDroid and has its own blockchain.
 > Only one of the two nodes can run at a time (they use the same ports): stop one before starting the other.
