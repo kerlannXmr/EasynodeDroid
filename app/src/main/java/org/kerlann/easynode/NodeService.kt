@@ -49,6 +49,10 @@ class NodeService : Service() {
         private const val UPDATE_CHANNEL_ID = "updates"
         private const val UPDATE_NOTIF_ID = 2
         private const val UPDATE_INTERVAL_MS = 12L * 3600 * 1000
+        /** Redémarrage automatique : attentes de plus en plus longues si ça s'arrête encore (secondes). */
+        private val RESTART_DELAYS_S = intArrayOf(30, 60, 120, 300, 600)
+        /** Après 10 min de fonctionnement normal, on repart sur l'attente la plus courte. */
+        private const val STABLE_RUN_MS = 10L * 60 * 1000
 
         fun start(ctx: Context) {
             ContextCompat.startForegroundService(ctx, Intent(ctx, NodeService::class.java).setAction(ACTION_START))
@@ -98,10 +102,52 @@ class NodeService : Service() {
 
     // ── Exécution ───────────────────────────────────────────────────────────
 
+    /** Fin d'un démarrage de monerod qui n'a pas été demandée par l'utilisateur. */
+    private class UnexpectedStop(val message: String, val isError: Boolean)
+
+    /**
+     * Fait tourner monerod. Avec l'option « Redémarrage automatique », le nœud redémarre tout seul
+     * après tout arrêt non demandé (erreur, coupure réseau, arrêt forcé, commande d'arrêt…).
+     * Les essais s'espacent : 30 s, 1 min, 2 min, 5 min puis toutes les 10 min.
+     */
     private suspend fun runNode() {
+        var attempt = 0
+        try {
+            while (true) {
+                val startedAt = System.currentTimeMillis()
+                val end = runOnce() ?: break          // arrêt demandé par l'utilisateur
+                if (stopping) break
+                if (!AutoRestartStore.get(this)) {
+                    // Comportement d'avant : erreur affichée (sauf arrêt normal de monerod)
+                    if (end.isError) NodeState.fail(end.message)
+                    break
+                }
+                if (System.currentTimeMillis() - startedAt > STABLE_RUN_MS) attempt = 0
+                val wait = RESTART_DELAYS_S[minOf(attempt, RESTART_DELAYS_S.size - 1)]
+                attempt++
+                NodeState.appendLog("!! ${end.message}")
+                NodeState.appendLog(getString(R.string.log_auto_restart, wait))
+                NodeState.setStatus(NodeStatus.STARTING)
+                NodeState.setError(end.message)
+                updateNotification(getString(R.string.notif_restarting, wait))
+                delay(wait * 1000L)
+                if (stopping) break
+            }
+        } finally {
+            process = null
+            TorManager.stop(this)
+            releaseLocks()
+            // Après une erreur, l'état ERROR reste affiché ; sinon on passe à « Arrêté »
+            if (NodeState.status.value != NodeStatus.ERROR) NodeState.setStatus(NodeStatus.STOPPED)
+            ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+            stopSelf()
+        }
+    }
+
+    /** Un démarrage de monerod. Renvoie null si l'arrêt a été demandé, sinon la raison de l'arrêt. */
+    private suspend fun runOnce(): UnexpectedStop? {
         val s = SettingsStore.load(this)
         NodeState.setStatus(NodeStatus.STARTING)
-        var failed = false
         try {
             val bin = binary(this)
             if (!bin.exists()) throw IllegalStateException(getString(R.string.err_no_binary))
@@ -121,7 +167,7 @@ class NodeService : Service() {
                 if (count > 0) banFile = f
             }
 
-            if (stopping) return
+            if (stopping) return null
 
             // Tor intégré : adresse .onion pour les wallets + transactions via Tor
             var torSocks: Int? = null
@@ -133,7 +179,7 @@ class NodeService : Service() {
                 tor.second?.let { NodeState.appendLog(getString(R.string.log_tor_onion, it, TorManager.ONION_PORT)) }
             }
 
-            if (stopping) return
+            if (stopping) return null
 
             val args = buildArgs(bin, dataDir, s, banFile, torSocks)
             val shown = args.joinToString(" ").let { line ->
@@ -164,22 +210,19 @@ class NodeService : Service() {
             withTimeoutOrNull(3_000) { reader.join() }
             process = null
 
-            if (!stopping && exit != 0) {
-                failed = true
-                NodeState.fail(getString(R.string.err_exit, exit))
-            }
+            if (stopping) return null
+            // monerod s'est arrêté tout seul (code 0 = arrêt « propre », par ex. commande d'arrêt)
+            return UnexpectedStop(getString(R.string.err_exit, exit), isError = exit != 0)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            failed = true
-            NodeState.fail(e.message ?: e.toString())
+            if (stopping) return null
+            return UnexpectedStop(e.message ?: e.toString(), isError = true)
         } finally {
+            // Nettoyage entre deux démarrages (Tor repart proprement au démarrage suivant)
             process = null
             TorManager.stop(this)
             releaseLocks()
-            if (!failed) NodeState.setStatus(NodeStatus.STOPPED)
-            ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
-            stopSelf()
         }
     }
 
@@ -242,6 +285,7 @@ class NodeService : Service() {
                     }
                 }
             }
+            TorManager.checkAlive()
             val r = rpc.getInfo()
             if (r != null) {
                 val info = NodeInfo(

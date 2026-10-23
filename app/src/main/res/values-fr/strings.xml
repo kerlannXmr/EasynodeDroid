@@ -145,4 +145,11 @@
     <string name="bug_no_mail">Aucune application e-mail trouvée : l’adresse %1$s a été copiée.</string>
     <string name="bug_body_intro">Que s’est-il passé ?\n\n\nComment reproduire le problème (étapes) ?\n</string>
     <string name="bug_body_log">--- Dernières lignes du journal ---</string>
+    <string name="tor_state_on">Tor en marche</string>
+    <string name="tor_state_starting">Tor en cours de connexion</string>
+    <string name="tor_state_off">Tor arrêté</string>
+    <string name="auto_restart">Redémarrage automatique</string>
+    <string name="auto_restart_hint">Redémarre le nœud tout seul s’il s’arrête.</string>
+    <string name="log_auto_restart">Redémarrage automatique dans %1$d s…</string>
+    <string name="notif_restarting">Redémarrage dans %1$d s…</string>
 </resources>

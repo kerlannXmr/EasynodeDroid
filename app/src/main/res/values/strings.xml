@@ -146,4 +146,11 @@
     <string name="bug_no_mail">No email app found: the address %1$s has been copied.</string>
     <string name="bug_body_intro">What happened?\n\n\nHow to reproduce it (steps)?\n</string>
     <string name="bug_body_log">--- Last log lines ---</string>
+    <string name="tor_state_on">Tor running</string>
+    <string name="tor_state_starting">Tor connecting</string>
+    <string name="tor_state_off">Tor stopped</string>
+    <string name="auto_restart">Automatic restart</string>
+    <string name="auto_restart_hint">Restarts the node by itself if it stops.</string>
+    <string name="log_auto_restart">Automatic restart in %1$d s…</string>
+    <string name="notif_restarting">Restarting in %1$d s…</string>
 </resources>
