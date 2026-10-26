@@ -159,7 +159,7 @@
     <string name="perm_install">Sources Inconnues</string>
     <string name="perm_install_hint">Mises à jour hors Play Store.</string>
     <string name="perm_autoblocker">Auto Bloqueur</string>
-    <string name="perm_autoblocker_hint">Peut bloquer les mises à jour(android 16 et +)</string>
+    <string name="perm_autoblocker_hint">Peut bloquer les mises à jour(android 16+)</string>
     <string name="perm_autoblocker_note"></string>
     <string name="perm_missing_one">Il manque 1 autorisation</string>
     <string name="perm_missing_many">Il manque %1$d autorisations</string>
