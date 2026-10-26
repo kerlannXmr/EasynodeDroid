@@ -24,7 +24,7 @@ data class NodeInfo(
 
 /** État partagé entre le service (qui fait tourner monerod) et l'interface. */
 object NodeState {
-    private const val MAX_LOG_LINES = 400
+    private const val MAX_LOG_LINES = 3000
 
     private val _status = MutableStateFlow(NodeStatus.STOPPED)
     val status: StateFlow<NodeStatus> = _status

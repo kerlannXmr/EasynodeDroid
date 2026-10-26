@@ -98,7 +98,7 @@ The first synchronization takes from several hours to several days depending on 
 ### First launch
 
 1. Allow notifications.
-2. In **Settings**, tap **Disable battery optimization** and accept.
+2. In **Settings › Permissions**, tap **Allow** on each red line (notifications, battery, updates) and accept what Android asks. On Samsung phones, the **Auto Blocker** line opens *Security and privacy*: turn Auto Blocker off if updates are blocked.
 3. Choose the storage location (internal storage or SD card).
 4. Plug in the phone, connect to Wi-Fi, go to the **Node** tab and tap **Start node**.
 
@@ -185,7 +185,10 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 - Look at the **Log** tab for the exact error.
 
 **The node stops when the screen is off**
-- Disable battery optimization in **Settings**, or in *Android Settings › Apps › EasynodeDroid › Battery › Unrestricted*.
+- Allow **Battery** in **Settings › Permissions**, or set *Android Settings › Apps › EasynodeDroid › Battery › Unrestricted*.
+
+**The update does not install (Samsung)**
+- *Auto Blocker* blocks apps installed outside the Play Store, including updates. The app shows a button to open *Security and privacy*: turn Auto Blocker off, install the update, then turn it back on if you want.
 
 **Sync is slow**
 - The first sync is long by nature. Keep the phone plugged in, on Wi-Fi, and prefer internal storage or a fast (A2 / U3) SD card.
