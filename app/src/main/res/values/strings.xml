@@ -50,7 +50,7 @@
     <string name="set_rpc_pass">Password (min. 6 characters)</string>
     <string name="warn_lan_no_login">RPC open without a password: any device on the network can use it.</string>
     <string name="set_tor">Tor: .onion address + transactions via Tor</string>
-    <string name="set_tor_hint">Tor is built into the app (Orbot not needed). Gives your node an .onion address for wallets and broadcasts your transactions through Tor. Start takes up to a minute longer.</string>
+    <string name="set_tor_hint">Tor is built into the app (Orbot not needed). Gives your node an .onion address for wallets and broadcasts your transactions through Tor</string>
     <string name="set_metered">Allow mobile data</string>
     <string name="set_metered_hint">The sync downloads tens of GB.</string>
     <string name="set_delete"> ⚠ Delete blockchain ⚠ </string>
@@ -91,7 +91,7 @@
     <string name="update_notif_channel">Updates</string>
     <string name="update_notif_title">EasynodeDroid update available</string>
     <string name="set_updates">Check for updates</string>
-    <string name="set_updates_hint">Asks GitHub when the app opens and every 12 h while the node runs. GitHub can see your IP address.</string>
+    <string name="set_updates_hint">At the app opens and every 12h</string>
     <string name="update_hint">The node is stopped during the update and restarted afterwards. The blockchain is kept.</string>
     <string name="update_install">Install the update</string>
     <string name="upd_downloading">Downloading… %1$s</string>
@@ -105,7 +105,7 @@
     <string name="upd_notif_confirm">Tap to confirm the update</string>
     <string name="upd_notif_open">Tap to open the app and install it.</string>
     <string name="set_auto_update">Install updates automatically</string>
-    <string name="set_auto_update_hint">While the node runs: downloads, checks the signature, stops the node, installs and restarts it. Android may ask for one confirmation. Never on mobile data unless allowed above.</string>
+    <string name="set_auto_update_hint">Downloads, checks the signature,installs and restarts it</string>
     <string name="header_subtitle">Monero node</string>
     <string name="link_github">Source code</string>
     <string name="link_star">⭐ Give a star</string>
@@ -160,8 +160,8 @@
     <string name="perm_install">Unknown sources</string>
     <string name="perm_install_hint">For not play store updates.</string>
     <string name="perm_autoblocker">Auto Blocker</string>
-    <string name="perm_autoblocker_hint">May block updates.</string>
-    <string name="perm_autoblocker_note">Android 16 and more.</string>
+    <string name="perm_autoblocker_hint">May block updates(Android 16+)</string>
+    <string name="perm_autoblocker_note"></string>
     <string name="perm_missing_one">1 permission is missing</string>
     <string name="perm_missing_many">%1$d permissions are missing</string>
     <string name="perm_missing_hint">Without them, the phone may stop the node and block updates.</string>
