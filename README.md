@@ -38,7 +38,7 @@
 - **Pruned blockchain** – about 115 GB instead of 250 GB, while still verifying every block.
 - **Verified binary** – each release embeds the official `monerod` for Android ARM64, checked against the **GPG-signed** `hashes.txt` of the Monero Project (SHA-256) before the APK is built.
 - **One-tap start / stop** – runs as a foreground service, with sync progress, height and peers in a notification.
-- **Built-in Tor** (Tor 0.4.9) – no Orbot needed. Gives your node a **.onion address** for your wallets and broadcasts your transactions over Tor.
+- **Built-in Tor** (Tor 0.4.9.x) – no Orbot needed. Gives your node a **.onion address** for your wallets and broadcasts your transactions over Tor.
 - **Spy-node protection** – loads the community [IP ban list](https://github.com/Boog900/monero-ban-list) at every start.
 - **Wallet-ready RPC** – local, local network (restricted RPC) or Tor, with optional login and password.
 - **Internal storage or SD card** – choose where the blockchain lives.
@@ -143,7 +143,7 @@ If **RPC authentication** is enabled, enter the same username and password in th
 
 ## Tor
 
-Tor is **built into the app** (based on the Guardian Project's [tor-android](https://github.com/guardianproject/tor-android), **Tor 0.4.9**, the series required by the Tor network since Tor 0.4.8 reached end of life); Orbot is not required. Tor is **on by default**; the light next to the node status shows whether it is really running.
+Tor is **built into the app** (based on the Guardian Project's [tor-android](https://github.com/guardianproject/tor-android), **Tor 0.4.9.x**, the series required by the Tor network since Tor 0.4.8 reached end of life); Orbot is not required. Tor is **on by default**; the light next to the node status shows whether it is really running.
 
 When the **Tor** option is enabled:
 
