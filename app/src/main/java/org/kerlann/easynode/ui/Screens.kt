@@ -796,7 +796,7 @@ fun SettingsScreen() {
             SwitchRow(stringResource(R.string.set_tor), stringResource(R.string.set_tor_hint), s.torTx, editable) {
                 update(s.copy(torTx = it))
             }
-            if (s.torTx) OnionInfo()
+            if (s.torTx) OnionInfo(showNewAddress = true)
         }
 
         Section {
@@ -882,10 +882,13 @@ fun SettingsScreen() {
 
 /** Adresse .onion + port, avec bouton copier (Réglages et onglet Wallet). */
 @Composable
-private fun OnionInfo() {
+private fun OnionInfo(showNewAddress: Boolean = false) {
     val ctx = LocalContext.current
     val status by NodeState.status.collectAsStateWithLifecycle()
-    val onion = remember(status) { TorManager.savedOnion(ctx) }
+    var onion by remember(status) { mutableStateOf(TorManager.savedOnion(ctx)) }
+    // On ne change les clés que quand le nœud (et donc Tor) est arrêté
+    val stopped = status == NodeStatus.STOPPED || status == NodeStatus.ERROR
+    var confirmNewOnion by remember { mutableStateOf(false) }
     Column(
         Modifier
             .fillMaxWidth()
@@ -894,14 +897,51 @@ private fun OnionInfo() {
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        if (onion == null) {
+        // Copie locale : Kotlin n'accepte pas d'utiliser directement une variable « by remember » comme texte
+        val address = onion
+        if (address == null) {
             Hint(stringResource(R.string.tor_pending), Warn)
         } else {
             Text(stringResource(R.string.tor_address), fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
-            CopyRow(onion, small = true)
+            CopyRow(address, small = true)
             Text(stringResource(R.string.tor_port, TorManager.ONION_PORT), fontFamily = FontFamily.Monospace, fontSize = 14.sp)
             Hint(stringResource(R.string.tor_wallet_hint))
         }
+        // Bouton « Nouvelle adresse .onion » : seulement dans Réglages (pas dans l'onglet Wallet)
+        if (address != null && showNewAddress) {
+            Spacer(Modifier.height(4.dp))
+            OutlinedButton(
+                onClick = { confirmNewOnion = true },
+                enabled = stopped,
+                border = BorderStroke(1.dp, if (stopped) Err else Muted),
+                modifier = Modifier.fillMaxWidth(),
+            ) { Text(stringResource(R.string.tor_new_onion), color = if (stopped) Err else Muted) }
+            if (!stopped) Hint(stringResource(R.string.tor_new_onion_running), Warn)
+        }
+    }
+    if (confirmNewOnion) {
+        AlertDialog(
+            onDismissRequest = { confirmNewOnion = false },
+            title = { Text(stringResource(R.string.tor_new_onion_title)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(stringResource(R.string.tor_new_onion_text))
+                    Hint(stringResource(R.string.tor_new_onion_note))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmNewOnion = false
+                    if (TorManager.resetOnion(ctx)) {
+                        onion = null
+                        NodeState.appendLog(ctx.getString(R.string.log_new_onion))
+                    }
+                }) { Text(stringResource(R.string.tor_new_onion_confirm), color = Err) }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmNewOnion = false }) { Text(stringResource(R.string.btn_cancel)) }
+            },
+        )
     }
 }
 
