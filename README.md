@@ -51,6 +51,8 @@
 
 <a href="https://monerica.com/site/easynodedroid" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:8px 14px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;line-height:1.2;color:#ffffff;background-color:#1d1d1d;border:1px solid #ff6600;border-radius:8px;text-decoration:none;"><span style="display:inline-flex;align-items:center;background:#ffffff;border-radius:4px;padding:3px 5px;line-height:0;"><img src="https://cdn.monerica.com/directorycontent/images/monerica-logo.png" alt="Monerica" height="22" style="height:22px;width:auto;display:block;border:0;" /></span><br>Review on Monerica</a>
 
+[<img src="https://icons.duckduckgo.com/ip3/xmrlist.com.ico" width="16" height="16"> Xmrlist](https://xmrlist.com/site/easynodedroid) — Directory of Monero services
+
 ---
 
 ## Screenshots
