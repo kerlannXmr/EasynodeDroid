@@ -49,7 +49,7 @@
 - **Saved log** – the **Log** tab is also saved to a file, so you can still see what happened after the app was restarted.
 - **Permissions in one place** – **Settings › Permissions** shows what is allowed and opens the right Android screen for what is missing.
 
-<a href="https://monerica.com/site/easynodedroid" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:8px 14px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;line-height:1.2;color:#ffffff;background-color:#1d1d1d;border:1px solid #ff6600;border-radius:8px;text-decoration:none;"><span style="display:inline-flex;align-items:center;background:#ffffff;border-radius:4px;padding:3px 5px;line-height:0;"><img src="https://cdn.monerica.com/directorycontent/images/monerica-logo.png" alt="Monerica" height="18" style="height:18px;width:auto;display:block;border:0;" /></span>Review on Monerica</a>
+<a href="https://monerica.com/site/easynodedroid" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:8px 14px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;line-height:1.2;color:#ffffff;background-color:#1d1d1d;border:1px solid #ff6600;border-radius:8px;text-decoration:none;"><span style="display:inline-flex;align-items:center;background:#ffffff;border-radius:4px;padding:3px 5px;line-height:0;"><img src="https://cdn.monerica.com/directorycontent/images/monerica-logo.png" alt="Monerica" height="22" style="height:22px;width:auto;display:block;border:0;" /></span><br>Review on Monerica</a>
 
 ---
 
