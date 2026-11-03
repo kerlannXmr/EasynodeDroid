@@ -22,6 +22,7 @@
   <a href="#tor">Tor</a> •
   <a href="#configuration">Configuration</a> •
   <a href="#troubleshooting">Troubleshooting</a> •
+  <a href="#-listed-on">Listed_on</a> •
   <a href="#license">License</a>
 </p>
 
@@ -48,10 +49,6 @@
 - **Tor status light** – a green / orange / red light on the home screen shows whether Tor is really running, connecting or stopped.
 - **Saved log** – the **Log** tab is also saved to a file, so you can still see what happened after the app was restarted.
 - **Permissions in one place** – **Settings › Permissions** shows what is allowed and opens the right Android screen for what is missing.
-
-<a href="https://monerica.com/site/easynodedroid" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:8px 14px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;line-height:1.2;color:#ffffff;background-color:#1d1d1d;border:1px solid #ff6600;border-radius:8px;text-decoration:none;"><span style="display:inline-flex;align-items:center;background:#ffffff;border-radius:4px;padding:3px 5px;line-height:0;"><img src="https://cdn.monerica.com/directorycontent/images/monerica-logo.png" alt="Monerica" height="22" style="height:22px;width:auto;display:block;border:0;" /></span><br>Review on Monerica</a>
-
-[<img src="https://icons.duckduckgo.com/ip3/xmrlist.com.ico" width="16" height="16"> Xmrlist](https://xmrlist.com/site/easynodedroid) — Directory of Monero services
 
 ---
 
@@ -225,6 +222,15 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 - [Guardian Project](https://github.com/guardianproject/tor-android) for Tor on Android
 - [Boog900](https://github.com/Boog900/monero-ban-list) for the IP ban list
 - Adapted from the [EasyMonerod](https://github.com/kerlannXmr/easymonerod) Linux script
+
+## 📂 Listed on
+
+EasyNode is referenced in the following Monero service directories:
+
+- <a href="https://monerica.com/site/easynodedroid"><img src="https://cdn.monerica.com/directorycontent/images/monerica-logo.png" alt="Monerica" height="22"></a> [Monerica](https://monerica.com/site/easynodedroid)
+- [<img src="https://icons.duckduckgo.com/ip3/xmrlist.com.ico" width="22"> Xmrlist](https://xmrlist.com/site/easynode)
+
+*Feel free to leave a review if EasyNode works well for you!*
 
 ## Support the project
 
