@@ -227,7 +227,7 @@ Good to know: a .onion connection goes through 6 Tor relays, so it is naturally 
 
 EasyNode is referenced in the following Monero service directories:
 
-- <a href="https://monerica.com/site/easynodedroid"><img src="https://cdn.monerica.com/directorycontent/images/monerica-logo.png" alt="Monerica" height="22"></a> [Monerica](https://monerica.com/site/easynodedroid)
+- <a href="https://monerica.com/site/easynodedroid"><img src="https://cdn.monerica.com/directorycontent/images/monerica-logo.png" alt="Monerica" height="18"></a> [Monerica](https://monerica.com/site/easynodedroid)
 - [<img src="https://icons.duckduckgo.com/ip3/xmrlist.com.ico" width="22"> Xmrlist](https://xmrlist.com/site/easynode)
 
 *Feel free to leave a review if EasyNode works well for you!*
