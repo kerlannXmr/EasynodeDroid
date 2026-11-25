@@ -124,6 +124,10 @@
     <string name="pass_hide">Masquer</string>
     <string name="log_share">Partager le journal</string>
     <string name="log_share_title">Partager le journal d’EasynodeDroid</string>
+    <string name="log_clear">Effacer le journal</string>
+    <string name="log_clear_title">Effacer le journal ?</string>
+    <string name="log_clear_text">Toutes les lignes du journal seront effacées, y compris l’ancien journal sauvegardé. Le nœud continue de tourner.</string>
+    <string name="log_clear_confirm">Effacer</string>
     <string name="donate_address_label">Adresse XMR pour les dons</string>
     <string name="donate_button">Faire un don par wallet</string>
     <string name="donate_copy">Copier</string>

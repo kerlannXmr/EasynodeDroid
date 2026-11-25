@@ -126,6 +126,10 @@
     <string name="pass_hide">Hide</string>
     <string name="log_share">Share the log</string>
     <string name="log_share_title">Share the EasynodeDroid log</string>
+    <string name="log_clear">Clear the log</string>
+    <string name="log_clear_title">Clear the log?</string>
+    <string name="log_clear_text">All log lines will be erased, including the older saved log. The node keeps running.</string>
+    <string name="log_clear_confirm">Clear</string>
     <string name="donate_address_label">XMR address for donations</string>
     <string name="donate_button">Donate by wallet</string>
     <string name="donate_copy">Copy</string>
